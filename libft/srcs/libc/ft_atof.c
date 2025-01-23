@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsuchen <tsuchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 10:13:22 by tsuchen           #+#    #+#             */
-/*   Updated: 2024/07/05 10:20:56 by tsuchen          ###   ########.fr       */
+/*   Created: 2025/01/23 11:46:34 by jaoh              #+#    #+#             */
+/*   Updated: 2025/01/23 11:46:36 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,3 @@ double	ft_atof(const char *nptr)
 		ft_handler(&num, ++i, nptr);
 	return ((num * sign));
 }
-/*
-#include <stdlib.h>
-#include <stdio.h>
-int	main(int ac, char *av[])
-{
-	if (ac != 2)
-		return (0);
-	printf("real atof :%f\n", atof(av[1]));
-	printf("test atof :%f\n", ft_atof(av[1]));
-	return (0);
-}*/

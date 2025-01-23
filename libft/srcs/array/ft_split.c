@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsuchen <tsuchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 15:13:36 by tsuchen           #+#    #+#             */
-/*   Updated: 2024/07/11 13:58:51 by tsuchen          ###   ########.fr       */
+/*   Created: 2025/01/23 11:28:33 by jaoh              #+#    #+#             */
+/*   Updated: 2025/01/23 11:29:12 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,26 +93,3 @@ char	**ft_split(char const *s, char c)
  * 2. if any of malloc fail, it will return NULL
  * 3. if s is empty, it will return an empty arr with a NULL
  */
-/*
-#include <stdio.h>
-#include <string.h>
-
-int	main(int ac, char *av[])
-{
-	if (ac != 3 || (strlen(av[2]) != 1))
-		return (0);
-	char	**arr;
-	int		i;
-
-	i = 0;
-	arr = ft_split(av[1], *(av[2]));
-	if (!arr)
-		return (0);
-	while (arr[i])
-	{
-		printf("%s\n", arr[i]);
-		i++;
-	}
-	ft_free_all(arr, i);
-	return (0);
-}*/

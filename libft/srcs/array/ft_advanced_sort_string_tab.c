@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_advanced_sort_string_tab.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/18 11:08:30 by tsuchen           #+#    #+#             */
-/*   Updated: 2024/07/16 08:39:52 by okoca            ###   ########.fr       */
+/*   Created: 2025/01/22 17:12:56 by jaoh              #+#    #+#             */
+/*   Updated: 2025/01/22 17:13:53 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,49 +40,3 @@ void	ft_advanced_sort_string_tab(char **tab,
 		i++;
 	}
 }
-/*
-char    **ft_split(char *str, char *charset);
-int     ft_arr_len(char **arr);
-int	ft_strcmp(char *s1, char *s2);
-int	ft_desc(char *s1, char *s2);
-
-int	main(void)
-{
-	char	*str = "This is a simple test. If it works, it works!";
-	char	*charset = " ,!";
-	char	**tab;
-	int		arr_len;
-
-	tab = ft_split(str, charset);
-	arr_len = ft_arr_len(tab);
-	printf("==> Before sort string <==\n");
-	for (int i = 0; i < arr_len; i++)
-		printf("Split str %d is: %s\n", i, tab[i]);
-	ft_advanced_sort_string_tab(tab, &ft_desc);
-	printf("==> After sort string <==\n");
-	for (int j = 0; j < arr_len; j++)
-		printf("Split str %d is: %s\n", j, tab[j]);
-	//free mem
-	for (int k = 0; k < arr_len; k++)
-		free(tab[k]);
-	free(tab);
-	return (0);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	while ((*s1 || *s2) && (*s1 == *s2))
-	{
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
-}
-
-int	ft_desc(char *s1, char *s2)
-{
-	if (ft_strcmp(s1, s2) >= 0)
-		return (-1);
-	else
-		return (1);
-}*/

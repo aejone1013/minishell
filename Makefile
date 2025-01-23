@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: okoca <okoca@student.42.fr>                +#+  +:+       +#+         #
+#    By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 11:20:19 by okoca             #+#    #+#              #
-#    Updated: 2024/07/19 10:31:16 by okoca            ###   ########.fr        #
+#    Updated: 2025/01/22 17:14:44 by jaoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,22 +74,15 @@ $(NAME): $(LIBFT) $(OBJS) $(H_DEPS)
 %.o: %.c
 	$(CC) $(CFLAGS) -I$(HEAD) -I$(LIBFT_H_PATH) -c $< -o $@
 
-clean: libft-clean root-clean
+clean:
+	rm -f ${OBJS}
+	@echo -e "$(FPurple).o files $(Purple)cleaned\n${RESET}"
 
-libft-clean:
-	$(MAKE) -C $(LIBFT_PATH) clean
 
-root-clean:
-	rm -f $(OBJS)
+fclean: clean
+	rm -f ${NAME}
+	@echo -e "$(FRed)${NAME}$(Red) cleaned${RESET}\n"
 
-fclean: libft-fclean root-fclean
+re : fclean all
 
-libft-fclean:
-	$(MAKE) -C $(LIBFT_PATH) fclean
-
-root-fclean: root-clean
-	rm -f $(NAME)
-
-re: fclean all
-
-.PHONY:	all clean fclean re libft libft-clean libft-fclean root-clean root-fclean
+.PHONY: all clean fclean re

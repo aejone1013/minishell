@@ -3,86 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsuchen <tsuchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 16:14:02 by tsuchen           #+#    #+#             */
-/*   Updated: 2024/05/24 11:05:40 by tsuchen          ###   ########.fr       */
+/*   Created: 2024/08/01 18:12:31 by jaoh              #+#    #+#             */
+/*   Updated: 2024/08/01 18:12:31 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" 
+#include "libft.h"
 
-static int	ft_count_digit(int n)
+static	int	ft_nblength(long int nb);
+
+static	char	*ft_rev_str(char *str);
+
+char	*ft_itoa(int nb)
 {
-	int	count;
+	int			i;
+	long int	sign;
+	long int	nbr;
+	char		*str;
 
-	count = 0;
-	if (n < 0)
+	i = 0;
+	sign = 0;
+	nbr = (long int)nb;
+	str = (char *)ft_calloc((ft_nblength(nbr) + 1), sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	if (nbr == 0)
+		str[i++] = '0';
+	if (nbr < 0)
+		nbr *= --sign;
+	while (nbr > 0)
 	{
-		count += 1;
-		n *= -1;
+		str[i++] = (nbr % 10) + '0';
+		nbr /= 10;
 	}
-	if (n == 0)
-		count += 1;
-	while (n > 0)
-	{
-		count += 1;
-		n /= 10;
-	}
-	return (count);
-}
-
-static int	ft_power(int base, int pwr, int output)
-{
-	if (pwr == 0)
-		return (output);
-	else
-		return (ft_power(base, pwr - 1, output * base));
-}
-
-char	*ft_itoa(int n)
-{
-	char	*str;
-	int		size;
-	int		i;
-
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	size = ft_count_digit(n);
-	str = (char *)malloc((size + 1) * sizeof(char));
-	if (!str)
-		return (0);
-	i = -1;
-	if (n < 0)
-	{
-		str[++i] = '-';
-		n *= -1;
-	}
-	while (++i < size)
-	{
-		str[i] = (n / ft_power(10, size - i - 1, 1)) + '0';
-		n %= ft_power(10, size - i - 1, 1);
-	}
+	if (sign)
+		str[i++] = '-';
 	str[i] = '\0';
+	return (str = ft_rev_str(str));
+}
+
+static	int	ft_nblength(long int nb)
+{
+	int	length;
+
+	length = 0;
+	if (nb <= 0)
+		length++;
+	while (nb)
+	{
+		nb /= 10;
+		length++;
+	}
+	return (length);
+}
+
+static	char	*ft_rev_str(char *str)
+{
+	int	start;
+	int	final;
+
+	start = 0;
+	final = ft_strlen(str) - 1;
+	while (start < final - start)
+	{
+		str[start] = str[start] ^ str[final - start];
+		str[final - start] = str[start] ^ str[final - start];
+		str[start] = str[start] ^ str[final - start];
+		start++;
+	}
 	return (str);
 }
-/* Note
- * 1. if n exceed MAX_INT or MIN_INT, the output will overflow
- * 2. if malloc failed, return NULL
- */
-/*
-#include <stdio.h>
-
-int	main(int ac, char *av[])
-{
-	if (ac != 2)
-		return (0);
-	int	nb;
-	char	*str;
-
-	nb = atoi(av[1]);
-	str = ft_itoa(nb);
-	printf("nbr: %d | str: %s\n", nb, str);
-	free(str);
-	return (0);
-}*/

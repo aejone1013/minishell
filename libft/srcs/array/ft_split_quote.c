@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_quote.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsuchen <tsuchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 15:13:36 by tsuchen           #+#    #+#             */
-/*   Updated: 2024/06/28 13:48:46 by tsuchen          ###   ########.fr       */
+/*   Created: 2025/01/23 11:29:43 by jaoh              #+#    #+#             */
+/*   Updated: 2025/01/23 11:30:14 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,36 +122,3 @@ char	**ft_split_quote(char const *s, char c)
  * 2. if any of malloc fail, it will return NULL
  * 3. if s is empty, it will return an empty arr with a NULL
  */
-/*
-#include <stdio.h>
-#include <string.h>
-
-void	ft_free_all(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-}
-
-int	main(int ac, char *av[])
-{
-	if (ac != 3 || (strlen(av[2]) != 1))
-		return (0);
-	char	**arr;
-	int		i;
-
-	i = 0;
-	arr = ft_split_quote(av[1], *(av[2]));
-	if (!arr)
-		return (0);
-	while (arr[i])
-	{
-		printf("%s\n", arr[i]);
-		i++;
-	}
-	ft_free_all(arr);
-	return (0);
-}*/

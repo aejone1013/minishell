@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_func_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsuchen <tsuchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:02:54 by tsuchen           #+#    #+#             */
-/*   Updated: 2024/07/18 12:59:06 by tsuchen          ###   ########.fr       */
+/*   Updated: 2025/01/22 16:49:24 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	bi_print_export(t_env *env)
 	char	*tmp_id;
 	int		i;
 
-	envs = exe_get_envs(env);
+	envs = ex_get_envs(env);
 	if (!envs)
 		return (1);
 	ft_advanced_sort_string_tab(envs, &ft_strcmp);

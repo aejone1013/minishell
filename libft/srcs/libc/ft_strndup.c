@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 12:33:59 by tsuchen           #+#    #+#             */
-/*   Updated: 2024/07/12 23:51:48 by okoca            ###   ########.fr       */
+/*   Created: 2025/01/22 17:20:51 by jaoh              #+#    #+#             */
+/*   Updated: 2025/01/22 17:21:09 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,3 @@ char	*ft_strndup(const char *str, int nb)
 	new[i] = '\0';
 	return (new);
 }
-
-/*
-#include <string.h>
-#include <stdio.h>
-int	main(void)
-{
-	char	*src = "Source";
-	char	*dup_t;
-	char	*dup_r;
-
-	dup_t = ft_strdup(src);
-	if (!dup_t)
-		return (0);
-	dup_r = strdup(src);
-	if (!dup_r)
-		return (0);
-	printf("Duplicate test: %s\n", dup_t);
-	printf("Duplicate real: %s\n", dup_r);
-	free(dup_t);
-	free(dup_r);
-	return (0);
-}*/

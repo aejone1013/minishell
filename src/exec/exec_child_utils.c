@@ -6,13 +6,13 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:26 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/18 16:10:27 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/22 16:49:26 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exe_do_exec(t_ctx *ctx, char *cmd, t_args *args)
+int	ex_do_exec(t_ctx *ctx, char *cmd, t_args *args)
 {
 	char	*path;
 	char	**cmds;
@@ -20,18 +20,18 @@ int	exe_do_exec(t_ctx *ctx, char *cmd, t_args *args)
 
 	if (!cmd)
 		return (0);
-	path = exe_get_path(cmd, ctx->envp);
+	path = ex_get_path(cmd, ctx->envp);
 	if (!path)
-		return (exe_err4_exec(cmd, errno), -1);
-	envs = exe_get_envs(ctx->envp);
+		return (ex_err4_exec(cmd, errno), -1);
+	envs = ex_get_envs(ctx->envp);
 	if (!envs)
 		return (free(path), -1);
-	cmds = exe_get_cmds(cmd, args);
+	cmds = ex_get_cmds(cmd, args);
 	if (!cmds)
 		return (free(path), free(envs), -1);
 	if (execve(path, cmds, envs) == -1)
 	{
-		exe_err4_exec(path, errno);
+		ex_err4_exec(path, errno);
 		ft_free_all(cmds);
 		return (free(path), free(envs), -2);
 	}
@@ -39,7 +39,7 @@ int	exe_do_exec(t_ctx *ctx, char *cmd, t_args *args)
 	return (free(path), free(envs), 0);
 }
 
-char	*exe_get_path(char *file, t_env *env)
+char	*ex_get_path(char *file, t_env *env)
 {
 	char	**paths;
 	char	*exec;
@@ -47,7 +47,7 @@ char	*exe_get_path(char *file, t_env *env)
 
 	if (file && file[0] == '\0')
 		return (NULL);
-	if (!env || exe_is_abs_path(file) == 1)
+	if (!env || ex_is_abs_path(file) == 1)
 		return (ft_strdup(file));
 	path_env = ms_getenv("PATH", env);
 	if (!path_env)
@@ -55,12 +55,12 @@ char	*exe_get_path(char *file, t_env *env)
 	paths = ft_split(path_env->value, ':');
 	if (!paths)
 		return (ft_strdup(file));
-	exec = exe_get_exec(paths, file);
+	exec = ex_get_exec(paths, file);
 	ft_free_all(paths);
 	return (exec);
 }
 
-char	*exe_get_exec(char **paths, char *file)
+char	*ex_get_exec(char **paths, char *file)
 {
 	char	*exec;
 	char	*path;
@@ -83,7 +83,7 @@ char	*exe_get_exec(char **paths, char *file)
 	return (NULL);
 }
 
-char	**exe_get_cmds(char *cmd, t_args *args)
+char	**ex_get_cmds(char *cmd, t_args *args)
 {
 	char	**cmds;
 	int		arg_size;
@@ -110,7 +110,7 @@ char	**exe_get_cmds(char *cmd, t_args *args)
 	return (cmds);
 }
 
-char	**exe_get_envs(t_env *env)
+char	**ex_get_envs(t_env *env)
 {
 	char	**envs;
 	int		env_size;

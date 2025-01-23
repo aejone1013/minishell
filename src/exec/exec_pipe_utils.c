@@ -6,40 +6,40 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:05 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/18 16:10:06 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/22 16:48:26 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exe_create_pipe(int fd_pipe[2])
+void	ex_create_pipe(int fd_pipe[2])
 {
 	if (pipe(fd_pipe) == -1)
-		exe_err2_pipe(errno);
+		ex_err2_pipe(errno);
 }
 
-void	exe_do_child(t_ctx *ctx, t_exec *exec)
+void	ex_do_child(t_ctx *ctx, t_exec *exec)
 {
 	int		fd_pipe[2];
 
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -1;
-	exe_create_pipe(fd_pipe);
+	ex_create_pipe(fd_pipe);
 	signal(SIGINT, sig_exec);
 	ctx->pids[ctx->pid_count] = fork();
 	if (ctx->pids[ctx->pid_count] == -1)
-		exe_err3_fork(errno);
+		ex_err3_fork(errno);
 	else if (!ctx->pids[ctx->pid_count])
-		exe_do_child2(ctx, exec, fd_pipe);
+		ex_do_child2(ctx, exec, fd_pipe);
 	else
 	{
 		if (fd_pipe[0] != -1)
 			dup2(fd_pipe[0], STDIN_FILENO);
 	}
-	exe_close_all(NULL, fd_pipe);
+	ex_close_all(NULL, fd_pipe);
 }
 
-void	exe_do_child2(t_ctx *ctx, t_exec *exec, int fd_pipe[])
+void	ex_do_child2(t_ctx *ctx, t_exec *exec, int fd_pipe[])
 {
 	int	exit_code;
 
@@ -50,33 +50,33 @@ void	exe_do_child2(t_ctx *ctx, t_exec *exec, int fd_pipe[])
 		if (fd_pipe[1] != -1)
 			dup2(fd_pipe[1], STDOUT_FILENO);
 	}
-	if (exe_init_fdio(exec))
+	if (ex_init_fdio(exec))
 	{
-		exe_close_all(ctx, fd_pipe);
+		ex_close_all(ctx, fd_pipe);
 		ms_free_all(ctx);
 		exit(EXIT_FAILURE);
 	}
-	exe_close_all(ctx, fd_pipe);
+	ex_close_all(ctx, fd_pipe);
 	if (bi_is_builtin(exec->cmd))
 	{
 		exit_code = bi_do_builtin(ctx, exec->cmd, exec->args);
 		ms_free_all(ctx);
 		exit(exit_code);
 	}
-	exit_code = exe_do_exec(ctx, exec->cmd, exec->args);
+	exit_code = ex_do_exec(ctx, exec->cmd, exec->args);
 	ms_free_all(ctx);
 	if (exit_code == -2)
 		exit(IS_A_DIRECTORY);
 	exit(COMMAND_NOT_FOUND);
 }
 
-void	exe_dup2_close(int fd1, int fd2)
+void	ex_dup2_close(int fd1, int fd2)
 {
 	dup2(fd1, fd2);
 	close(fd1);
 }
 
-int	exe_is_abs_path(char *file)
+int	ex_is_abs_path(char *file)
 {
 	while (*file)
 	{

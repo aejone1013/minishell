@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:23:56 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/18 11:38:13 by okoca            ###   ########.fr       */
+/*   Updated: 2025/01/22 17:16:04 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <limits.h>
 
 # include "libft.h"
-# include "ft_printf.h"
-# include "get_next_line_bonus.h"
 
 # include "lexer.h"
 # include "parser.h"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_all.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsuchen <tsuchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 11:46:12 by tsuchen           #+#    #+#             */
-/*   Updated: 2024/07/11 11:48:24 by tsuchen          ###   ########.fr       */
+/*   Created: 2025/01/22 17:19:14 by jaoh              #+#    #+#             */
+/*   Updated: 2025/01/22 17:19:19 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,3 @@ void	ft_free_all(char **arr)
 		free(arr[i++]);
 	free(arr);
 }
-/* Note
- * This functin is to free all string arrays. It does not protect if the arr
- * pointer is NULL.
- */

@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:09:53 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/18 16:09:54 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/22 16:48:05 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	exec(t_ctx *ctx)
 {
 	if (ctx->exec_count == 0)
 		return (0);
-	exe_set_stdfds(ctx, 0);
+	ex_set_stdfds(ctx, 0);
 	exec_2(ctx);
-	exe_set_stdfds(ctx, 1);
+	ex_set_stdfds(ctx, 1);
 	return (0);
 }
 
@@ -29,28 +29,28 @@ int	exec_2(t_ctx *ctx)
 	tmp = ctx->exec;
 	if (tmp->next == NULL && bi_is_builtin(tmp->cmd))
 	{
-		if (exe_init_fdio(tmp))
+		if (ex_init_fdio(tmp))
 		{
 			ctx->exit_code = 1;
 			return (1);
 		}
 		if (bi_is_builtin(tmp->cmd) == 2)
 			ft_putstr_fd("exit\n", STDERR_FILENO);
-		exe_unlink_all(ctx);
+		ex_unlink_all(ctx);
 		ctx->exit_code = bi_do_builtin(ctx, tmp->cmd, tmp->args);
 		return (0);
 	}
 	while (tmp)
 	{
-		exe_do_child(ctx, tmp);
+		ex_do_child(ctx, tmp);
 		ctx->pid_count++;
 		tmp = tmp->next;
 	}
-	exe_wait_all(ctx);
+	ex_wait_all(ctx);
 	return (0);
 }
 
-void	exe_set_stdfds(t_ctx *ctx, int mode)
+void	ex_set_stdfds(t_ctx *ctx, int mode)
 {
 	if (!mode)
 	{
@@ -59,26 +59,26 @@ void	exe_set_stdfds(t_ctx *ctx, int mode)
 	}
 	else
 	{
-		exe_dup2_close(ctx->def_in, STDIN_FILENO);
-		exe_dup2_close(ctx->def_out, STDOUT_FILENO);
+		ex_dup2_close(ctx->def_in, STDIN_FILENO);
+		ex_dup2_close(ctx->def_out, STDOUT_FILENO);
 	}
 }
 
-void	exe_close_all(t_ctx *ctx, int pipe[])
+void	ex_close_all(t_ctx *ctx, int pipe[])
 {
 	if (ctx)
 	{
-		exe_close(&(ctx->def_in));
-		exe_close(&(ctx->def_out));
+		ex_close(&(ctx->def_in));
+		ex_close(&(ctx->def_out));
 	}
 	if (pipe)
 	{
-		exe_close(&(pipe[0]));
-		exe_close(&(pipe[1]));
+		ex_close(&(pipe[0]));
+		ex_close(&(pipe[1]));
 	}
 }
 
-void	exe_wait_all(t_ctx *ctx)
+void	ex_wait_all(t_ctx *ctx)
 {
 	int		status;
 	int		i;
@@ -96,11 +96,11 @@ void	exe_wait_all(t_ctx *ctx)
 			else if (WIFSIGNALED(status))
 			{
 				if (WTERMSIG(status) == SIGQUIT)
-					exe_err_coredump(ctx->pids[i]);
+					ex_err_coredump(ctx->pids[i]);
 				g_signals.signal_code = SIGNAL_OFFSET + WTERMSIG(status);
 			}
 		}
 		i++;
 	}
-	exe_unlink_all(ctx);
+	ex_unlink_all(ctx);
 }
