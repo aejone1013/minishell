@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 11:36:25 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/23 11:36:35 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/23 23:54:57 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	ft_printf(const char *fmt, ...)
 		{
 			if (ft_is_spec(*(fmt + 1)) == 1)
 				count += ft_print_spec(*(++fmt), &ap);
-			else
-				fmt = ft_procs_flag(++fmt, &ap, &count);
 		}
 		else
 			count += ft_print_char(*fmt);

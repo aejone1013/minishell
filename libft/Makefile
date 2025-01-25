@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+SHELL=  /bin/bash
+
 FBlack			=   $(shell echo -e "\033[1;30m")
 Black			=   $(shell echo -e "\033[0;30m")
 FRed			=   $(shell echo -e "\033[1;31m")
@@ -53,7 +55,7 @@ SRCS_PRINTF	= ft_print_char.c ft_print_digit.c ft_printf.c ft_print_mem.c \
 
 SRCS_GNL	= get_next_line.c get_next_line_utils.c
 
-HEADERS = ft_printf.h get_next_line_bonus.h libft.h
+HEADERS = ft_printf.h get_next_line.h libft.h
 
 LIBC_PATH	= srcs/libc/
 ARRAY_PATH	= srcs/array/
@@ -85,7 +87,7 @@ ${NAME}: ${OBJS}
 	ar -rcs ${NAME} ${OBJS}
 	@echo -e "${FBlue}${NAME}${Blue} compiled\n${RESET}"
 
-.c.o:
+%.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@ -I$(HEAD)
 
 clean:

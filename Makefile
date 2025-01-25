@@ -6,9 +6,31 @@
 #    By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 11:20:19 by okoca             #+#    #+#              #
-#    Updated: 2025/01/22 17:14:44 by jaoh             ###   ########.fr        #
+#    Updated: 2025/01/25 15:20:25 by jaoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+SHELL=  /bin/bash
+
+FBlack			=   $(shell echo -e "\033[1;30m")
+Black			=   $(shell echo -e "\033[0;30m")
+FRed			=   $(shell echo -e "\033[1;31m")
+Red				=   $(shell echo -e "\033[0;31m")
+FGreen          =   $(shell echo -e "\033[1;32m")
+Green           =   $(shell echo -e "\033[0;32m")
+FBrown		    =   $(shell echo -e "\033[1;33m")
+Brown           =   $(shell echo -e "\033[0;33m")
+FYellow         =   $(shell echo -e "\033[1;33m")
+Yellow          =   $(shell echo -e "\033[0;33m")
+FBlue           =   $(shell echo -e "\033[1;34m")
+Blue            =   $(shell echo -e "\033[0;34m")
+FPurple         =   $(shell echo -e "\033[1;35m")
+Purple          =   $(shell echo -e "\033[0;35m")
+FCyan           =   $(shell echo -e "\033[1;36m")
+Cyan            =   $(shell echo -e "\033[0;36m")
+FWhite          =   $(shell echo -e "\033[1;37m")
+White           =   $(shell echo -e "\033[0;37m")
+RESET           =   $(shell echo -e "\033[0m")
 
 NAME 		= minishell
 
@@ -53,7 +75,7 @@ OBJS		= $(SRCS:.c=.o)
 
 HEAD		= includes/
 
-CFLAGS		= -Wall -Wextra -Werror # -g
+CFLAGS		= -Wall -Wextra -Werror
 
 CC		= cc
 
@@ -70,17 +92,21 @@ $(LIBFT):
 
 $(NAME): $(LIBFT) $(OBJS) $(H_DEPS)
 	$(CC) $(CFLAGS) $(OBJS) -lreadline $(LIBFT) -o $(NAME)
+	@echo -e "${FBlue}${NAME}${Blue} compiled\n${RESET}"
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I$(HEAD) -I$(LIBFT_H_PATH) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(HEAD) -I$(LIBFT_H_PATH) -c $< -o $@
 
 clean:
 	rm -f ${OBJS}
+	$(MAKE) -C $(LIBFT_PATH) clean
 	@echo -e "$(FPurple).o files $(Purple)cleaned\n${RESET}"
 
-
-fclean: clean
+fclean: 
+	rm -f ${OBJS}
+	@echo -e "$(FPurple).o files $(Purple)cleaned\n${RESET}"
 	rm -f ${NAME}
+	$(MAKE) -C $(LIBFT_PATH) fclean
 	@echo -e "$(FRed)${NAME}$(Red) cleaned${RESET}\n"
 
 re : fclean all

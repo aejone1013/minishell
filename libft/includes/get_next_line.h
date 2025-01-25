@@ -6,12 +6,12 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 11:23:05 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/23 11:23:08 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/23 23:33:16 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # include "libft.h"
 # include <stdlib.h>
