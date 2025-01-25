@@ -6,51 +6,51 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:09:53 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/22 16:48:05 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:37:49 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec(t_ctx *ctx)
+int	ex_run_exec(t_ctx *ctx)
 {
 	if (ctx->exec_count == 0)
 		return (0);
-	ex_set_stdfds(ctx, 0);
-	exec_2(ctx);
-	ex_set_stdfds(ctx, 1);
+	ex_backup_restore_fds(ctx, 0);
+	ex_run_pipeline(ctx);
+	ex_backup_restore_fds(ctx, 1);
 	return (0);
 }
 
-int	exec_2(t_ctx *ctx)
+int	ex_run_pipeline(t_ctx *ctx)
 {
 	t_exec	*tmp;
 
 	tmp = ctx->exec;
 	if (tmp->next == NULL && bi_is_builtin(tmp->cmd))
 	{
-		if (ex_init_fdio(tmp))
+		if (ex_init_redir(tmp))
 		{
 			ctx->exit_code = 1;
 			return (1);
 		}
 		if (bi_is_builtin(tmp->cmd) == 2)
 			ft_putstr_fd("exit\n", STDERR_FILENO);
-		ex_unlink_all(ctx);
+		ex_unlink_heredoc(ctx);
 		ctx->exit_code = bi_do_builtin(ctx, tmp->cmd, tmp->args);
 		return (0);
 	}
 	while (tmp)
 	{
-		ex_do_child(ctx, tmp);
+		ex_setup_child(ctx, tmp);
 		ctx->pid_count++;
 		tmp = tmp->next;
 	}
-	ex_wait_all(ctx);
+	ex_wait_child(ctx);
 	return (0);
 }
 
-void	ex_set_stdfds(t_ctx *ctx, int mode)
+void	ex_backup_restore_fds(t_ctx *ctx, int mode)
 {
 	if (!mode)
 	{
@@ -64,7 +64,7 @@ void	ex_set_stdfds(t_ctx *ctx, int mode)
 	}
 }
 
-void	ex_close_all(t_ctx *ctx, int pipe[])
+void	ex_close_all_fds(t_ctx *ctx, int pipe[])
 {
 	if (ctx)
 	{
@@ -78,7 +78,7 @@ void	ex_close_all(t_ctx *ctx, int pipe[])
 	}
 }
 
-void	ex_wait_all(t_ctx *ctx)
+void	ex_wait_child(t_ctx *ctx)
 {
 	int		status;
 	int		i;
@@ -102,5 +102,5 @@ void	ex_wait_all(t_ctx *ctx)
 		}
 		i++;
 	}
-	ex_unlink_all(ctx);
+	ex_unlink_heredoc(ctx);
 }

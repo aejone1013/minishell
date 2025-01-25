@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 15:40:18 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/22 16:49:24 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:41:54 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,22 @@ typedef struct s_exec
 }	t_exec;
 
 /* exec main */
-int		exec(t_ctx *ctx);
-int		exec_2(t_ctx *ctx);
-void	ex_set_stdfds(t_ctx *ctx, int mode);
-void	ex_close_all(t_ctx *ctx, int pipe[]);
+int		ex_run_exec(t_ctx *ctx);
+int		ex_run_pipeline(t_ctx *ctx);
+void	ex_backup_restore_fds(t_ctx *ctx, int mode);
+void	ex_close_all_fds(t_ctx *ctx, int pipe[]);
 void	ex_close(int *fd);
-void	ex_wait_all(t_ctx *ctx);
+void	ex_wait_child(t_ctx *ctx);
 
 /* fdio utils*/
-int		ex_init_fdio(t_exec *exec);
-int		ex_handle_files(t_exec *exec);
-void	ex_redir_files(t_exec *exec, t_filenames *file);
+int		ex_init_redir(t_exec *exec);
+int		ex_handle_redir(t_exec *exec);
+void	ex_redirection(t_exec *exec, t_filenames *file);
 
 /* pipe utils */
 void	ex_create_pipe(int fd_pipe[2]);
-void	ex_do_child(t_ctx *ctx, t_exec *exec);
-void	ex_do_child2(t_ctx *ctx, t_exec *exec, int fd_pipe[]);
+void	ex_setup_child(t_ctx *ctx, t_exec *exec);
+void	ex_execute_child(t_ctx *ctx, t_exec *exec, int fd_pipe[]);
 void	ex_dup2_close(int fd1, int fd2);
 int		ex_is_abs_path(char *file);
 
@@ -67,11 +67,11 @@ char	**ex_get_cmds(char *cmd, t_args *args);
 char	**ex_get_envs(t_env *env);
 
 /* err_utils */
-void	ex_err1_open(int err_no, char *file);
-void	ex_err2_pipe(int err_no);
-void	ex_err3_fork(int err_no);
-void	ex_err4_exec(char *path, int err_no);
+void	ex_err_open(int err_no, char *file);
+void	ex_err_pipe(int err_no);
+void	ex_err_fork(int err_no);
+void	ex_err_exec(char *path, int err_no);
 void	ex_err_coredump(int pid);
-void	ex_unlink_all(t_ctx *ctx);
+void	ex_unlink_heredoc(t_ctx *ctx);
 
 #endif

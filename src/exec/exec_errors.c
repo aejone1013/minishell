@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_err_utils.c                                   :+:      :+:    :+:   */
+/*   exec_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:21 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/22 16:49:02 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:47:26 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ex_err1_open(int err_no, char *file)
+void	ex_err_open(int err_no, char *file)
 {
 	int		fd_tmp;
 
@@ -22,7 +22,7 @@ void	ex_err1_open(int err_no, char *file)
 	ex_dup2_close(fd_tmp, STDOUT_FILENO);
 }
 
-void	ex_err2_pipe(int err_no)
+void	ex_err_pipe(int err_no)
 {
 	int		fd_tmp;
 
@@ -33,7 +33,7 @@ void	ex_err2_pipe(int err_no)
 	exit(2);
 }
 
-void	ex_err3_fork(int err_no)
+void	ex_err_fork(int err_no)
 {
 	int		fd_tmp;
 
@@ -44,7 +44,7 @@ void	ex_err3_fork(int err_no)
 	exit(3);
 }
 
-void	ex_err4_exec(char *path, int err_no)
+void	ex_err_exec(char *path, int err_no)
 {
 	int				fd_tmp;
 	struct stat		stats;
@@ -63,7 +63,7 @@ void	ex_err4_exec(char *path, int err_no)
 	ex_dup2_close(fd_tmp, STDOUT_FILENO);
 }
 
-void	ex_unlink_all(t_ctx *ctx)
+void	ex_unlink_heredoc(t_ctx *ctx)
 {
 	t_exec		*exec;
 	t_filenames	*tmp;

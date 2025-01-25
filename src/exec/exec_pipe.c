@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pipe_utils.c                                  :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:05 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/22 16:48:26 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:46:33 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	ex_create_pipe(int fd_pipe[2])
 {
 	if (pipe(fd_pipe) == -1)
-		ex_err2_pipe(errno);
+		ex_err_pipe(errno);
 }
 
-void	ex_do_child(t_ctx *ctx, t_exec *exec)
+void	ex_setup_child(t_ctx *ctx, t_exec *exec)
 {
 	int		fd_pipe[2];
 
@@ -28,18 +28,18 @@ void	ex_do_child(t_ctx *ctx, t_exec *exec)
 	signal(SIGINT, sig_exec);
 	ctx->pids[ctx->pid_count] = fork();
 	if (ctx->pids[ctx->pid_count] == -1)
-		ex_err3_fork(errno);
+		ex_err_fork(errno);
 	else if (!ctx->pids[ctx->pid_count])
-		ex_do_child2(ctx, exec, fd_pipe);
+		ex_execute_child(ctx, exec, fd_pipe);
 	else
 	{
 		if (fd_pipe[0] != -1)
 			dup2(fd_pipe[0], STDIN_FILENO);
 	}
-	ex_close_all(NULL, fd_pipe);
+	ex_close_all_fds(NULL, fd_pipe);
 }
 
-void	ex_do_child2(t_ctx *ctx, t_exec *exec, int fd_pipe[])
+void	ex_execute_child(t_ctx *ctx, t_exec *exec, int fd_pipe[])
 {
 	int	exit_code;
 
@@ -50,13 +50,13 @@ void	ex_do_child2(t_ctx *ctx, t_exec *exec, int fd_pipe[])
 		if (fd_pipe[1] != -1)
 			dup2(fd_pipe[1], STDOUT_FILENO);
 	}
-	if (ex_init_fdio(exec))
+	if (ex_init_redir(exec))
 	{
-		ex_close_all(ctx, fd_pipe);
+		ex_close_all_fds(ctx, fd_pipe);
 		ms_free_all(ctx);
 		exit(EXIT_FAILURE);
 	}
-	ex_close_all(ctx, fd_pipe);
+	ex_close_all_fds(ctx, fd_pipe);
 	if (bi_is_builtin(exec->cmd))
 	{
 		exit_code = bi_do_builtin(ctx, exec->cmd, exec->args);

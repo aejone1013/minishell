@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:32:39 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/22 16:40:52 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:18:29 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_pipeline(t_ctx *ctx, char *line)
 	}
 	if (ms_setup_exec(ctx, &token) != 0)
 		return (1);
-	exec(ctx);
+	ex_run_exec(ctx);
 	ms_clear(ctx, token);
 	return (0);
 }

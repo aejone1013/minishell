@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:26 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/22 16:49:26 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:41:58 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ex_do_exec(t_ctx *ctx, char *cmd, t_args *args)
 		return (0);
 	path = ex_get_path(cmd, ctx->envp);
 	if (!path)
-		return (ex_err4_exec(cmd, errno), -1);
+		return (ex_err_exec(cmd, errno), -1);
 	envs = ex_get_envs(ctx->envp);
 	if (!envs)
 		return (free(path), -1);
@@ -31,7 +31,7 @@ int	ex_do_exec(t_ctx *ctx, char *cmd, t_args *args)
 		return (free(path), free(envs), -1);
 	if (execve(path, cmds, envs) == -1)
 	{
-		ex_err4_exec(path, errno);
+		ex_err_exec(path, errno);
 		ft_free_all(cmds);
 		return (free(path), free(envs), -2);
 	}

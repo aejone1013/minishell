@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_fdio_utils.c                                  :+:      :+:    :+:   */
+/*   exec_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:16 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/22 16:48:53 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:46:22 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ex_init_fdio(t_exec *exec)
+int	ex_init_redir(t_exec *exec)
 {
-	if (ex_handle_files(exec))
+	if (ex_handle_redir(exec))
 		return (1);
 	return (0);
 }
 
-int	ex_handle_files(t_exec *exec)
+int	ex_handle_redir(t_exec *exec)
 {
 	t_filenames	*tmp;
 
 	tmp = exec->redirs;
 	while (tmp)
 	{
-		ex_redir_files(exec, tmp);
+		ex_redirection(exec, tmp);
 		if (exec->fd_in == -1 || exec-> fd_out == -1)
 			return (1);
 		tmp = tmp->next;
@@ -34,7 +34,7 @@ int	ex_handle_files(t_exec *exec)
 	return (0);
 }
 
-void	ex_redir_files(t_exec *exec, t_filenames *file)
+void	ex_redirection(t_exec *exec, t_filenames *file)
 {
 	if (file->type == INFILE || file->type == N_HEREDOC)
 	{
@@ -42,7 +42,7 @@ void	ex_redir_files(t_exec *exec, t_filenames *file)
 			close (exec->fd_in);
 		exec->fd_in = open(file->path, O_RDONLY);
 		if (exec->fd_in == -1)
-			ex_err1_open(errno, file->path);
+			ex_err_open(errno, file->path);
 		ex_dup2_close(exec->fd_in, STDIN_FILENO);
 	}
 	else
@@ -55,7 +55,7 @@ void	ex_redir_files(t_exec *exec, t_filenames *file)
 			exec->fd_out
 				= open(file->path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (exec->fd_out == -1)
-			ex_err1_open(errno, file->path);
+			ex_err_open(errno, file->path);
 		ex_dup2_close(exec->fd_out, STDOUT_FILENO);
 	}
 }

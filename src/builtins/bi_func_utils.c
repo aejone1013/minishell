@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:09:45 by tsuchen           #+#    #+#             */
-/*   Updated: 2025/01/22 16:47:22 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:18:59 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	bi_exit(t_ctx *ctx, t_args *args)
 		bi_err_exit(args->value);
 		exit_code = 2;
 	}
-	ex_close_all(ctx, NULL);
+	ex_close_all_fds(ctx, NULL);
 	ms_free_all(ctx);
 	exit(exit_code);
 }

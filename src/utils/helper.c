@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsuchen <tsuchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 11:31:33 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/19 10:52:14 by tsuchen          ###   ########.fr       */
+/*   Created: 2025/01/25 16:43:16 by jaoh              #+#    #+#             */
+/*   Updated: 2025/01/25 16:43:17 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	*ms_free_double(char **value)
 }
 
 /*
-* pass in a env name for ex: `PATH`
-* to get the `$PATH` or `HOME` for `$HOME`...
-* returns a `char *` that doesn't need to be freed
-* I could add an if to check if the 'path' is == $?,
-* then I can just return the error code
-* since this works: printf "$?\n"
+환경 변수 이름(PATH)을 입력 전달.
+이를 통해 $PATH 또는 $HOME과 같은 환경 변수의 값을 가져옴.
+반환 값은 메모리 해제가 필요 없는 char*.
+'path'가 $?와 같은지 확인하는 조건문 추가 가능.
+$?일 경우, 마지막 명령의 종료 코드를 반환 가능.
+printf "$?\n"이랑 비슷한 방식.
 */
 
 t_env	*ms_getenv(char *path, t_env *envp)
