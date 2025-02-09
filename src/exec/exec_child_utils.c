@@ -6,39 +6,49 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:26 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/25 16:41:58 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ex_do_exec(t_ctx *ctx, char *cmd, t_args *args)
+/*
+1. ex_get_path(cmd, data->envp)
+cmd(예: ls)의 실행 파일 경로를 찾음 (예: /bin/ls).
+2. ex_get_envs(data->envp)
+환경 변수를 char ** 형태로 변환.
+3. ex_get_cmds(cmd, args)
+cmd + args를 배열 형태로 변환 (예: {"ls", "-l", NULL}).
+4. execve(path, cmds, envs) 실행
+실행 파일을 현재 프로세스와 교체.
+*** execve()는 실패할 경우만 다음 코드가 실행됨.
+*/
+int	ex_do_exec(t_data *data, char *cmd, t_args *args)
 {
 	char	*path;
 	char	**cmds;
 	char	**envs;
 
-	if (!cmd)
+	if (!cmd || *cmd == '\0')
 		return (0);
-	path = ex_get_path(cmd, ctx->envp);
+	path = ex_get_path(cmd, data->envp);
 	if (!path)
 		return (ex_err_exec(cmd, errno), -1);
-	envs = ex_get_envs(ctx->envp);
-	if (!envs)
-		return (free(path), -1);
+	envs = ex_get_envs(data->envp);
 	cmds = ex_get_cmds(cmd, args);
-	if (!cmds)
-		return (free(path), free(envs), -1);
+	if (!envs || !cmds)
+		return (free(path), free(envs), free(cmds), -1);
 	if (execve(path, cmds, envs) == -1)
-	{
 		ex_err_exec(path, errno);
-		ft_free_all(cmds);
-		return (free(path), free(envs), -2);
-	}
 	ft_free_all(cmds);
-	return (free(path), free(envs), 0);
+	free(path);
+	free(envs);
+	return (-2);
 }
-
+/*
+PATH 환경 변수를 검색하여 실행 파일 경로를 찾음
+절대경로(/bin/ls)면 그대로 반환함
+ */
 char	*ex_get_path(char *file, t_env *env)
 {
 	char	**paths;
@@ -59,23 +69,27 @@ char	*ex_get_path(char *file, t_env *env)
 	ft_free_all(paths);
 	return (exec);
 }
-
+/*
+PATH에 있는 디렉토리에서 파일이 실행 가능한지 검사함
+access(path, X_OK | F_OK)로 실행 권한 확인함
+*/
 char	*ex_get_exec(char **paths, char *file)
 {
 	char	*exec;
 	char	*path;
 	int		i;
 
+	if (!paths || !file)
+		return (NULL);
 	i = -1;
-	while (paths[++i])
+	while (paths[++i]) // PATH 환경 변수에 있는 모든 디렉토리 검사
 	{
-		path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(paths[i], "/"); // 디렉토리 경로 + "/" 붙이기
 		if (!path)
 			return (NULL);
-		exec = ft_strjoin(path, file);
+		if (!(exec = ft_strjoin(path, file)))
+			return (free(path), NULL);
 		free(path);
-		if (!exec)
-			return (NULL);
 		if (!access(exec, X_OK | F_OK))
 			return (exec);
 		free(exec);
@@ -86,25 +100,20 @@ char	*ex_get_exec(char **paths, char *file)
 char	**ex_get_cmds(char *cmd, t_args *args)
 {
 	char	**cmds;
-	int		arg_size;
 	int		i;
 
-	i = -1;
-	arg_size = arg_lstsize(args);
-	cmds = (char **)malloc((arg_size + 2) * sizeof(char *));
-	if (!cmds)
+	if (!cmd || *cmd == '\0')
 		return (NULL);
-	while (++i < arg_size + 1)
+	if (!(cmds = malloc((arg_lstsize(args) + 2) * sizeof(char *))))
+		return (NULL);
+	if (!(cmds[0] = ft_strdup(cmd)))
+		return (free(cmds), NULL);
+	i = 1;
+	while (args)
 	{
-		if (!i)
-			cmds[i] = ft_strdup(cmd);
-		else
-		{
-			cmds[i] = ft_strdup(args->value);
-			args = args->next;
-		}
-		if (!cmds[i])
+		if (!(cmds[i++] = ft_strdup(args->value)))
 			return (ft_free_all(cmds), NULL);
+		args = args->next;
 	}
 	cmds[i] = NULL;
 	return (cmds);
@@ -113,17 +122,15 @@ char	**ex_get_cmds(char *cmd, t_args *args)
 char	**ex_get_envs(t_env *env)
 {
 	char	**envs;
-	int		env_size;
 	int		i;
 
-	i = -1;
-	env_size = env_lstsize(env);
-	envs = (char **)malloc((env_size + 1) * sizeof(char *));
-	if (!envs)
+	if (!(envs = malloc((env_lstsize(env) + 1) * sizeof(char *))))
 		return (NULL);
-	while (++i < env_size)
+	i = 0;
+	while (env)
 	{
-		envs[i] = env->raw;
+		if (!(envs[i++] = ft_strdup(env->raw)))
+			return (ft_free_all(envs), NULL);
 		env = env->next;
 	}
 	envs[i] = NULL;

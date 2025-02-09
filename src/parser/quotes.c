@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:10:09 by okoca             #+#    #+#             */
-/*   Updated: 2024/09/20 15:29:57 by okoca            ###   ########.fr       */
+/*   Updated: 2025/02/09 16:28:26 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ps_raw_len(char *str)
 	return (i);
 }
 
-t_token	*ps_get_quoted_str(char *str, char c, t_ctx *ctx)
+t_token	*ps_get_quoted_str(char *str, char c, t_data *data)
 {
 	t_token			*new;
 	int				len;
@@ -39,13 +39,13 @@ t_token	*ps_get_quoted_str(char *str, char c, t_ctx *ctx)
 	if (c == '\'')
 		type = SINGLEQUOTE;
 	if (len > 0)
-		new = tok_create(str + 1, len, type, ctx);
+		new = tok_create(str + 1, len, type, data);
 	else
-		new = tok_create("\0", 1, STRING, ctx);
+		new = tok_create("\0", 1, STRING, data);
 	return (new);
 }
 
-t_token	*ps_parse_quotes(char *str, t_ctx *ctx)
+t_token	*ps_parse_quotes(char *str, t_data *data)
 {
 	int		i;
 	t_token	*token;
@@ -58,12 +58,12 @@ t_token	*ps_parse_quotes(char *str, t_ctx *ctx)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			tmp = ps_get_quoted_str(&(str[i]), str[i], ctx);
+			tmp = ps_get_quoted_str(&(str[i]), str[i], data);
 			i += ft_strlen(tmp->value) + 1;
 		}
 		else
 		{
-			tmp = tok_create(&(str[i]), ps_raw_len(&(str[i])), STRING, ctx);
+			tmp = tok_create(&(str[i]), ps_raw_len(&(str[i])), STRING, data);
 			i += ft_strlen(tmp->value) - 1;
 		}
 		if (!tmp)
@@ -102,7 +102,7 @@ int	ps_expand_and_quotes(t_token *token)
 	{
 		if (token->type == STRING)
 		{
-			str = ps_parse_quotes(token->value, token->ctx);
+			str = ps_parse_quotes(token->value, token->data);
 			ps_expand_env(str);
 			if (token->value)
 				free(token->value);

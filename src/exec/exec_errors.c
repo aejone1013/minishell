@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:21 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/25 16:47:26 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ void	ex_err_exec(char *path, int err_no)
 	ex_dup2_close(fd_tmp, STDOUT_FILENO);
 }
 
-void	ex_unlink_heredoc(t_ctx *ctx)
+void	ex_unlink_heredoc(t_data *data)
 {
 	t_exec		*exec;
 	t_filenames	*tmp;
 
-	exec = ctx->exec;
+	exec = data->exec;
 	while (exec)
 	{
 		tmp = exec->redirs;

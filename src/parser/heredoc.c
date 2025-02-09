@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:16:07 by okoca             #+#    #+#             */
-/*   Updated: 2025/01/22 16:40:44 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 14:01:41 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ps_handle_return(void)
 {
-	if (g_signals.end_heredoc == 1)
+	if (g_signals.eof == 1)
 	{
-		g_signals.end_heredoc = 0;
+		g_signals.eof = 0;
 		return (1);
 	}
 	return (0);
@@ -36,7 +36,7 @@ int	ps_init_here_doc(int fd, char *eof)
 				2);
 			break ;
 		}
-		if (!ft_strcmp(line, eof) || g_signals.end_heredoc == 1)
+		if (!ft_strcmp(line, eof) || g_signals.eof == 1)
 		{
 			free(line);
 			break ;

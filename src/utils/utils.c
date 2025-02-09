@@ -5,36 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 16:39:30 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/22 16:40:52 by jaoh             ###   ########.fr       */
+/*   Created: 2025/01/03 12:39:30 by jaoh              #+#    #+#             */
+/*   Updated: 2025/02/09 16:34:09 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ctx	*ms_init_ctx(char **envp)
+/*
+미니쉘을 실행할 때 필요한 t_data를 초기화하는 함수
+envp를 복사하고, 파일 디스크립터를 설정함
+*/
+t_data	*ms_init_data(char **envp)
 {
-	t_ctx	*ctx;
+	t_data	*data;
 
-	ctx = malloc(sizeof(t_ctx));
-	if (!ctx)
+	data = malloc(sizeof(t_data));
+	if (!data)
 		return (NULL);
-	ctx->envp = ms_env_dup(envp);
-	if (!ctx->envp)
+	data->envp = ms_env_dup(envp);
+	if (!data->envp)
 	{
-		free(ctx);
+		free(data);
 		return (NULL);
 	}
-	ctx->def_in = STDIN_FILENO;
-	ctx->def_in = STDOUT_FILENO;
-	ctx->exec = NULL;
-	ctx->pids = NULL;
-	ctx->exec_count = 0;
-	ctx->pid_count = 0;
-	ctx->exit_code = 0;
-	return (ctx);
+	data->def_in = STDIN_FILENO;
+	data->def_out = STDOUT_FILENO;
+	data->exec = NULL;
+	data->pids = NULL;
+	data->exec_count = 0;
+	data->pid_count = 0;
+	data->exit_code = 0;
+	return (data);
 }
 
+/*
+문자열 str의 주소값을 사용해 랜덤 문자열을 만들어 heredoc 파일명으로 사용
+*/
 char	*ms_generate_random(char *str)
 {
 	unsigned long	rand;
@@ -58,41 +65,48 @@ char	*ms_generate_random(char *str)
 	new[i] = '\0';
 	return (new);
 }
-
-void	ms_clear(t_ctx *ctx, t_token *token)
+/*
+미니쉘 실행 중에 할당된 메모리를 해제하는 함수.
+*/
+void	ms_clear(t_data *data, t_token *token)
 {
 	if (token)
 		tok_free(token);
-	if (ctx)
+	if (data)
 	{
-		if (ctx->exec)
+		if (data->exec)
 		{
-			br_free(ctx->exec);
-			ctx->exec = NULL;
+			br_free(data->exec);
+			data->exec = NULL;
 		}
-		if (ctx->pids)
+		if (data->pids)
 		{
-			free(ctx->pids);
-			ctx->pids = NULL;
+			free(data->pids);
+			data->pids = NULL;
 		}
 	}
 }
-
-void	ms_free_all(t_ctx *ctx)
+/*
+미니쉘이 종료될 때 실행되어 모든 할당된 메모리를 해제
+환경 변수, 실행 정보, 프로세스 리스트 등 전체를 정리
+*/
+void	ms_free_all(t_data *data)
 {
-	if (ctx)
+	if (data)
 	{
-		if (ctx->exec)
-			br_free(ctx->exec);
-		if (ctx->envp)
-			env_free(ctx->envp);
-		if (ctx->pids)
-			free(ctx->pids);
-		free(ctx);
+		if (data->exec)
+			br_free(data->exec);
+		if (data->envp)
+			env_free(data->envp);
+		if (data->pids)
+			free(data->pids);
+		free(data);
 	}
 	rl_clear_history();
 }
-
+/*
+빈 문자열이면 1을 반환하여 미니쉘이 실행하지 않는 용도
+*/
 int	ms_check_line(char *line)
 {
 	if (line[0] == '\0')

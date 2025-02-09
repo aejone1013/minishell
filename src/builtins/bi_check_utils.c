@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:31:23 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/18 16:31:23 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	bi_check_exitcode(char *value)
 	return (0);
 }
 
-int	bi_update_pwd(t_ctx *ctx, char *value)
+int	bi_update_pwd(t_data *data, char *value)
 {
 	t_env	*old_pwd;
 	t_env	*pwd;
@@ -60,19 +60,19 @@ int	bi_update_pwd(t_ctx *ctx, char *value)
 	char	*raw2;
 
 	cwd_new = getcwd(NULL, 0);
-	old_pwd = ms_getenv("OLDPWD", ctx->envp);
-	pwd = ms_getenv("PWD", ctx->envp);
+	old_pwd = ms_getenv("OLDPWD", data->envp);
+	pwd = ms_getenv("PWD", data->envp);
 	if (pwd && cwd_new)
 	{
 		raw2 = ft_strjoin("PWD=", cwd_new);
-		if (!raw2 || bi_add_var(raw2, &ctx->envp))
+		if (!raw2 || bi_add_var(raw2, &data->envp))
 			return (free(cwd_new), 1);
 		free(raw2);
 	}
 	if (old_pwd && value)
 	{
 		raw = ft_strjoin("OLDPWD=", value);
-		if (!raw || bi_add_var(raw, &ctx->envp))
+		if (!raw || bi_add_var(raw, &data->envp))
 			return (free(cwd_new), 1);
 		free(raw);
 	}

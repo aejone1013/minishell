@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:16 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/07 02:29:39 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 14:10:40 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ int	ex_handle_redir(t_exec *exec)
 	return (0);
 }
 /*
-*** 입력 리디렉션 (<, <<)
-fd_in을 닫고, 새 파일을 읽기 전용(O_RDONLY)으로 오픈
-ex_dup2_close(exec->fd_in, STDIN_FILENO)를 사용하여 표준 입력(STDIN_FILENO)을 새 파일로 변경
-*** 출력 리디렉션 (>, >>)
-기존 표준 출력(fd_out)을 닫고, 새 파일을 쓰기 모드(O_WRONLY)로 오픈
+*** input redirect (<, <<)
+fd_in을 닫고, 새 파일을 O_RDONLY로로 오픈
+ex_dup2_close(exec->fd_in, STDIN_FILENO)를 사용하여 STDIN_FILENO을 새 파일로 변경
+*** output redirect (>, >>)
+기존 표준 출력(fd_out)을 닫고, 새 파일을 O_WRONLY로 오픈
 >: 덮어쓰기(O_TRUNC)
 >>: 추가 모드(O_APPEND)
-ex_dup2_close(exec->fd_out, STDOUT_FILENO)를 사용하여 표준 출력을 새 파일로 변경
+ex_dup2_close(exec->fd_out, STDOUT_FILENO)를 사용하여 STDOUT_FILENO을 새 파일로 변경
 */
 void	ex_redirection(t_exec *exec, t_filenames *file)
 {

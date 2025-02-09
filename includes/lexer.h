@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:00:41 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/18 13:25:19 by okoca            ###   ########.fr       */
+/*   Updated: 2025/02/09 16:36:01 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-typedef struct s_ctx	t_ctx;
+typedef struct s_data	t_data;
 
 typedef enum e_token_type
 {
@@ -34,12 +34,12 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*value;
-	t_ctx			*ctx;
+	t_data			*data;
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
 
-t_token			*lexer(t_ctx *ctx, char *line);
+t_token			*lexer(t_data *data, char *line);
 int				lex_is_meta_char(char c);
 t_token_type	lex_get_type(char *str);
 int				lex_get_len(char *str, t_token_type type);
@@ -48,7 +48,7 @@ int				lex_quote_len(char *str, char quote);
 void			tok_debug(t_token *token);
 void			tok_free(t_token *token);
 void			tok_free_one(t_token *token);
-t_token			*tok_create(char *value, int n, t_token_type type, t_ctx *ctx);
+t_token			*tok_create(char *value, int n, t_token_type type, t_data *data);
 t_token			*tok_last(t_token *token);
 int				tok_add_back(t_token **head, t_token *new);
 

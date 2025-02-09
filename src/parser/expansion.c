@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:33:35 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/18 14:45:21 by okoca            ###   ########.fr       */
+/*   Updated: 2025/02/09 16:28:09 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 * echo "$<abcdef" -> too
 * echo "$/?lol" -> too
 */
-char	*ps_convert_to_env(char *str, char *found, t_ctx *ctx)
+char	*ps_convert_to_env(char *str, char *found, t_data *data)
 {
 	char	*before_env;
 	char	*env_var;
@@ -27,7 +27,7 @@ char	*ps_convert_to_env(char *str, char *found, t_ctx *ctx)
 	before_env = ps_get_before_env(str, found);
 	if (!before_env)
 		return (NULL);
-	env_var = ps_get_env_var(found + 1, ctx);
+	env_var = ps_get_env_var(found + 1, data);
 	after_env = ps_get_after_env(found + 1);
 	if (!after_env)
 		return (free(before_env), free(env_var), NULL);
@@ -80,7 +80,7 @@ int	ps_handle_env(t_token *token)
 		if (ft_strcmp(found, "$") == 0)
 			break ;
 		tmp = token->value;
-		new = ps_convert_to_env(token->value, found, token->ctx);
+		new = ps_convert_to_env(token->value, found, token->data);
 		if (new && new[0] == '\0')
 		{
 			free(new);
@@ -123,7 +123,7 @@ int	ps_expand_env(t_token *token)
 // 		return (local);
 // 	while (words[i])
 // 	{
-// 		tmp = tok_create(words[i], ft_strlen(words[i]), STRING, token->ctx);
+// 		tmp = tok_create(words[i], ft_strlen(words[i]), STRING, token->data);
 // 		tok_add_back(&(local), tmp);
 // 		free(words[i]);
 // 		i++;

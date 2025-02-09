@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:01:38 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/18 09:11:46 by okoca            ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*ps_split_tokens(t_token *token, char *str);
 int		ps_expand_env(t_token *current);
 char	*ps_getenv_name(char *str);
 char	*ps_get_before_env(char *str, char *found);
-char	*ps_get_env_var(char *found, t_ctx *ctx);
+char	*ps_get_env_var(char *found, t_data *data);
 char	*ps_get_after_env(char *found);
 int		ps_check_all_null(t_token *token);
 

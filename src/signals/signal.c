@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:11:30 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/25 15:53:37 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 14:01:41 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ void	sig_heredoc(int status)
 	rl_replace_line("", 0);
 	rl_redisplay();
 	rl_done = 1;
-	g_signals.end_heredoc = 1;
+	g_signals.eof = 1;
 	g_signals.signal_code = SIGNAL_OFFSET + SIGINT;
 }

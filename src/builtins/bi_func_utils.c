@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:09:45 by tsuchen           #+#    #+#             */
-/*   Updated: 2025/01/25 16:18:59 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	bi_echo(t_args *args)
 	return (0);
 }
 
-int	bi_cd(t_ctx *ctx, t_args *args)
+int	bi_cd(t_data *data, t_args *args)
 {
 	int		siz;
 	char	*cwd;
@@ -47,7 +47,7 @@ int	bi_cd(t_ctx *ctx, t_args *args)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		perror("minishell: cd: error retrieving current directory");
-	home = ms_getenv("HOME", ctx->envp);
+	home = ms_getenv("HOME", data->envp);
 	if ((!siz || !ft_strcmp(args->value, "--")) && home && home->value)
 		chdir(home->value);
 	else if ((!siz || !ft_strcmp(args->value, "--")) && (!home || !home->value))
@@ -57,7 +57,7 @@ int	bi_cd(t_ctx *ctx, t_args *args)
 		bi_err_cd(errno, args->value);
 		return (free(cwd), 1);
 	}
-	if (bi_update_pwd(ctx, cwd))
+	if (bi_update_pwd(data, cwd))
 		return (free(cwd), 1);
 	return (free(cwd), 0);
 }
@@ -83,7 +83,7 @@ int	bi_pwd(t_args *args)
 	return (0);
 }
 
-int	bi_exit(t_ctx *ctx, t_args *args)
+int	bi_exit(t_data *data, t_args *args)
 {
 	int		exit_code;
 
@@ -98,16 +98,16 @@ int	bi_exit(t_ctx *ctx, t_args *args)
 		bi_err_exit(args->value);
 		exit_code = 2;
 	}
-	ex_close_all_fds(ctx, NULL);
-	ms_free_all(ctx);
+	ex_close_all_fds(data, NULL);
+	ms_free_all(data);
 	exit(exit_code);
 }
 
-int	bi_env(t_ctx *ctx, t_args *args)
+int	bi_env(t_data *data, t_args *args)
 {
 	t_env	*tmp;
 
-	tmp = ctx->envp;
+	tmp = data->envp;
 	if (args)
 	{
 		bi_err_env(args->value);

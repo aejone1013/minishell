@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:23:56 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 14:57:38 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # include "signals.h"
 
 # define P_NAME "charles mishell"
-# define BLUE_A    "\033[1;34m"
+# define BROWN_A    "\033[1;33m"
 # define MAGENTA_A "\033[1;35m"
 # define CYAN_A    "\033[1;36m"
 
@@ -54,13 +54,13 @@
 # define RND_OFFSET 14695981039346656037UL
 # define RND_PRIME 1099511628211UL
 
-# define PROMPT "\001\033[1;36m\002charles mishell >$ \001\033[0m\002"
+# define PROMPT "\001\033[1;33m\002charles mishell >$ \001\033[0m\002"
 # define DEF_ENV "SHELL=charles mishell"
 
 typedef struct s_signals
 {
-	int	end_heredoc;
 	int	signal_code;
+	int	eof;
 }	t_signals;
 
 typedef struct s_env
@@ -71,31 +71,31 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_ctx
+typedef struct s_data
 {
 	int				def_in;
 	int				def_out;
-	unsigned char	exit_code;
 	int				exec_count;
+	unsigned char	exit_code;
 	pid_t			*pids;
 	int				pid_count;
 	t_exec			*exec;
 	t_env			*envp;
-}	t_ctx;
+}	t_data;
 
 extern t_signals	g_signals;
 
-/* main minishell functions */
-t_ctx	*ms_init_ctx(char **envp);
-void	ms_free_all(t_ctx *ctx);
+/* minishell 주요 함수 */
+t_data	*ms_init_data(char **envp);
+void	ms_free_all(t_data *data);
 int		ms_check_line(char *line);
-void	ms_clear(t_ctx *ctx, t_token *token);
+void	ms_clear(t_data *data, t_token *token);
 t_env	*ms_env_dup(char **envp);
 void	*ms_free_double(char **value);
 t_env	*ms_getenv(char *path, t_env *envp);
 char	*ms_generate_random(char *str);
 
-/* helper functions of t_env */
+/* t_env 함수 */
 t_env	*env_create(char *id, char *value, char *raw);
 t_env	*env_default_env(void);
 void	env_del_one(t_env *env);

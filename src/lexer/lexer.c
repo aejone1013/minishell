@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:11:13 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/18 16:31:24 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 * since we dont do any explicit pointer access,
 * we have no need to check if NULL
 */
-t_token	*lex_strtok(char *str, t_ctx *ctx)
+t_token	*lex_strtok(char *str, t_data *data)
 {
 	t_token			*new;
 	t_token_type	type;
@@ -26,11 +26,11 @@ t_token	*lex_strtok(char *str, t_ctx *ctx)
 	new = NULL;
 	type = lex_get_type(str);
 	len = lex_get_len(str, type);
-	new = tok_create(str, len, type, ctx);
+	new = tok_create(str, len, type, data);
 	return (new);
 }
 
-t_token	*lexer(t_ctx *ctx, char *line)
+t_token	*lexer(t_data *data, char *line)
 {
 	t_token	*token;
 	t_token	*tmp;
@@ -42,7 +42,7 @@ t_token	*lexer(t_ctx *ctx, char *line)
 	{
 		if (line[i] != ' ' && line[i] != '\t')
 		{
-			tmp = lex_strtok(&(line[i]), ctx);
+			tmp = lex_strtok(&(line[i]), data);
 			if (tmp == NULL)
 			{
 				tok_free(token);

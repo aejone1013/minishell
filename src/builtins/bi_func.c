@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:48:24 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/25 16:48:25 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,41 +34,41 @@ int	bi_is_builtin(char *cmd)
 		return (0);
 }
 
-int	bi_do_builtin(t_ctx *ctx, char *cmd, t_args *args)
+int	bi_do_builtin(t_data *data, char *cmd, t_args *args)
 {
 	if (!ft_strcmp(cmd, "echo"))
 		return (bi_echo(args));
 	else if (!ft_strcmp(cmd, "cd"))
-		return (bi_cd(ctx, args));
+		return (bi_cd(data, args));
 	else if (!ft_strcmp(cmd, "pwd"))
 		return (bi_pwd(args));
 	else if (!ft_strcmp(cmd, "export"))
-		return (bi_export(ctx, args));
+		return (bi_export(data, args));
 	else if (!ft_strcmp(cmd, "unset"))
-		return (bi_unset(ctx, args));
+		return (bi_unset(data, args));
 	else if (!ft_strcmp(cmd, "env"))
-		return (bi_env(ctx, args));
+		return (bi_env(data, args));
 	else if (!ft_strcmp(cmd, "exit"))
-		return (bi_exit(ctx, args));
+		return (bi_exit(data, args));
 	else
 		return (0);
 }
 
-int	bi_export(t_ctx *ctx, t_args *args)
+int	bi_export(t_data *data, t_args *args)
 {
 	int	exit_code;
 
 	exit_code = 0;
 	if (!args)
 	{
-		if (bi_print_export(ctx->envp))
+		if (bi_print_export(data->envp))
 			exit_code = 1;
 	}
 	else
 	{
 		while (args)
 		{
-			if (bi_add_var(args->value, &(ctx->envp)))
+			if (bi_add_var(args->value, &(data->envp)))
 				exit_code = 1;
 			args = args->next;
 		}
@@ -76,7 +76,7 @@ int	bi_export(t_ctx *ctx, t_args *args)
 	return (exit_code);
 }
 
-int	bi_unset(t_ctx *ctx, t_args *args)
+int	bi_unset(t_data *data, t_args *args)
 {
 	if (!args)
 		return (0);
@@ -84,7 +84,7 @@ int	bi_unset(t_ctx *ctx, t_args *args)
 	{
 		while (args)
 		{
-			if (bi_del_var(args->value, &(ctx->envp)))
+			if (bi_del_var(args->value, &(data->envp)))
 				return (1);
 			args = args->next;
 		}
