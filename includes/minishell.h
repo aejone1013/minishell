@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:23:56 by okoca             #+#    #+#             */
-/*   Updated: 2025/01/22 17:16:04 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 14:57:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # include "builder.h"
 # include "signals.h"
 
-# define P_NAME "minishell"
+# define P_NAME "charles mishell"
 # define BLUE_A    "\033[1;34m"
 # define MAGENTA_A "\033[1;35m"
 # define CYAN_A    "\033[1;36m"
@@ -54,8 +54,8 @@
 # define RND_OFFSET 14695981039346656037UL
 # define RND_PRIME 1099511628211UL
 
-# define PROMPT "\001\033[1;36m\002minishell >$ \001\033[0m\002"
-# define DEF_ENV "SHELL=minishell"
+# define PROMPT "\001\033[1;36m\002charles mishell >$ \001\033[0m\002"
+# define DEF_ENV "SHELL=charles mishell"
 
 typedef struct s_signals
 {

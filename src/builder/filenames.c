@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filenames.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 17:00:13 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/14 10:11:30 by okoca            ###   ########.fr       */
+/*   Created: 2025/01/25 16:51:43 by jaoh              #+#    #+#             */
+/*   Updated: 2025/01/25 16:52:44 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void	fn_free(t_filenames *filenames)
 	}
 }
 
-/*
-* will do the strdup on the path, just pass in a string
-*/
 t_filenames	*fn_create(char *path, t_token_type type)
 {
 	t_filenames	*filename;
