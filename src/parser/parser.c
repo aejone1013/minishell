@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:35:56 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 16:26:03 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 17:45:14 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,25 +107,25 @@ int	ps_remove_null(t_token **head)
 
 int	parser(t_token **token)
 {
-	int	err;
+	int	error;
 
-	err = 0;
+	error = 0;
 	if (ps_handle_quotes(*token) != 0)
-		err = 1;
+		error = 1;
 	else if (ps_expand_and_quotes(*token) != 0)
-		err = 1;
+		error = 1;
 	else if (ps_remove_null(token) != 0)
-		err = 1;
+		error = 1;
 	else if (ps_check_all_null(*token) != 0)
-		err = 2;
+		error = 2;
 	else if (ps_handle_redir(*token) != 0)
-		err = 1;
+		error = 1;
 	else if (ps_handle_cmd(*token) != 0)
-		err = 1;
+		error = 1;
 	else if (ps_handle_heredoc(*token) != 0)
 	{
 		ps_unlink_err(*token);
-		err = 2;
+		error = 2;
 	}
-	return (err);
+	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:16 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/09 14:10:40 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 17:45:18 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	ex_handle_redir(t_exec *exec)
 	t_filenames	*tmp;
 
 	tmp = exec->redirs;
-	while (tmp)
+	while (tmp) // 연결된 모든 리디렉션 처리
 	{
-		ex_redirection(exec, tmp);
-		if (exec->fd_in == -1 || exec-> fd_out == -1)
+		ex_redirection(exec, tmp); // 개별 리디렉션 설정
+		if (exec->fd_in == -1 || exec-> fd_out == -1) // 파일 열기 실패 체크
 			return (1);
 		tmp = tmp->next;
 	}
@@ -49,26 +49,26 @@ ex_dup2_close(exec->fd_out, STDOUT_FILENO)를 사용하여 STDOUT_FILENO을 새 
 */
 void	ex_redirection(t_exec *exec, t_filenames *file)
 {
-	if (file->type == INFILE || file->type == N_HEREDOC)
+	if (file->type == INFILE || file->type == N_HEREDOC) // 입력 리디렉션 처리
 	{
 		if (exec->fd_in != STDIN_FILENO)
 			close (exec->fd_in);
 		exec->fd_in = open(file->path, O_RDONLY);
 		if (exec->fd_in == -1)
 			ex_err_open(errno, file->path);
-		ex_dup2_close(exec->fd_in, STDIN_FILENO);
+		ex_dup2_close(exec->fd_in, STDIN_FILENO); // 표준 입력으로 설정
 	}
-	else
+	else // 출력 리디렉션 처리
 	{
 		if (exec->fd_out != STDOUT_FILENO)
 			close(exec->fd_out);
-		if (file->type == OUTFILE)
+		if (file->type == OUTFILE) // > : 덮어쓰기 모드
 			exec->fd_out = open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (file->type == APPEND)
+		else if (file->type == APPEND) // >> : 추가 모드
 			exec->fd_out
 				= open(file->path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (exec->fd_out == -1)
 			ex_err_open(errno, file->path);
-		ex_dup2_close(exec->fd_out, STDOUT_FILENO);
+		ex_dup2_close(exec->fd_out, STDOUT_FILENO); // 표준 출력으로 설정
 	}
 }

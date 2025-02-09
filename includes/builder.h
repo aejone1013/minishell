@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builder.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:43:09 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/15 08:38:41 by okoca            ###   ########.fr       */
+/*   Updated: 2025/02/09 17:10:51 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* builder functions fot t_exec */
 t_exec		*builder(t_token *token);
-t_exec		*br_init(void);
+t_exec		*bd_init(void);
 void		br_free(t_exec *exec);
 int			br_lstsize(t_exec *exec);
 void		br_debug(t_exec *exec);

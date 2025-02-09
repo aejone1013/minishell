@@ -6,13 +6,13 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:53:28 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/25 17:23:46 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/09 17:45:10 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	br_handle_redirs(t_exec *exec, t_token *token)
+static int	bd_handle_redirs(t_exec *exec, t_token *token)
 {
 	t_filenames	*tmp;
 
@@ -29,7 +29,7 @@ static int	br_handle_redirs(t_exec *exec, t_token *token)
 	return (0);
 }
 
-static int	br_handle_args(t_exec *exec, t_token *token)
+static int	bd_handle_args(t_exec *exec, t_token *token)
 {
 	t_args	*new;
 
@@ -48,7 +48,7 @@ t_exec	*builder(t_token *token)
 {
 	t_exec	*exec;
 
-	exec = br_init();
+	exec = bd_init();
 	if (!exec)
 		return (NULL);
 	while (token != NULL)
@@ -64,8 +64,8 @@ t_exec	*builder(t_token *token)
 			if (!exec->cmd)
 				return (NULL);
 		}
-		br_handle_redirs(exec, token);
-		br_handle_args(exec, token);
+		bd_handle_redirs(exec, token);
+		bd_handle_args(exec, token);
 		token = token->next;
 	}
 	return (exec);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builder_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:09 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/15 22:57:10 by okoca            ###   ########.fr       */
+/*   Updated: 2025/02/09 17:10:51 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_exec	*br_init(void)
+t_exec	*bd_init(void)
 {
 	t_exec	*new;
 
