@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 14:00:41 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 16:36:01 by jaoh             ###   ########.fr       */
+/*   Created: 2025/01/29 14:00:41 by jaoh              #+#    #+#             */
+/*   Updated: 2025/02/14 02:55:43 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef TOKEN_H
+# define TOKEN_H
 
 typedef struct s_data	t_data;
 
@@ -39,17 +39,17 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-t_token			*lexer(t_data *data, char *line);
-int				lex_is_meta_char(char c);
-t_token_type	lex_get_type(char *str);
-int				lex_get_len(char *str, t_token_type type);
-int				lex_quote_len(char *str, char quote);
+t_token			*tokenize(t_data *data, char *line);
+int				tok_is_operator(char c);
+t_token_type	tok_get_type(char *str);
+int				tok_get_len(char *str, t_token_type type);
+int				tok_quote_len(char *str, char quote);
 
 void			tok_debug(t_token *token);
-void			tok_free(t_token *token);
+void			tok_free_list(t_token *token);
 void			tok_free_one(t_token *token);
 t_token			*tok_create(char *value, int n, t_token_type type, t_data *data);
-t_token			*tok_last(t_token *token);
-int				tok_add_back(t_token **head, t_token *new);
+t_token			*tok_get_last(t_token *token);
+int				tok_append(t_token **head, t_token *new);
 
 #endif

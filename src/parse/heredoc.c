@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:16:07 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 14:01:41 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/14 02:55:36 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ps_init_here_doc(int fd, char *eof)
 {
 	char	*line;
 
-	signal(SIGINT, sig_heredoc);
+	signal(SIGINT, sg_heredoc_handler);
 	while (1)
 	{
 		line = readline("heredoc>");

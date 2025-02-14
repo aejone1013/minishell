@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okoca <okoca@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 09:49:51 by okoca             #+#    #+#             */
-/*   Updated: 2024/07/16 08:39:02 by okoca            ###   ########.fr       */
+/*   Updated: 2025/02/14 02:48:45 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
 
-void	sig_int_handler(int status);
+void	sg_input_handler(int status);
 
-void	sig_init_signals(void);
+void	sg_init_signal(void);
 
-void	sig_heredoc(int status);
+void	sg_heredoc_handler(int status);
 
-void	sig_exec(int status);
+void	sg_exec_handler(int status);
 
-int		sig_event(void);
+int		sg_readline_event(void);
 
 #endif

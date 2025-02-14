@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 12:39:30 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/09 16:34:09 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/14 02:55:38 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*ms_generate_random(char *str)
 void	ms_clear(t_data *data, t_token *token)
 {
 	if (token)
-		tok_free(token);
+		tok_free_list(token);
 	if (data)
 	{
 		if (data->exec)

@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:23:56 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/10 17:50:39 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # include "libft.h"
 
-# include "lexer.h"
+# include "token.h"
 # include "parser.h"
 # include "exec.h"
 # include "builtins.h"

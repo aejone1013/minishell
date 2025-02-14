@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   parse.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,7 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-int		parser(t_token **token);
+int		parse(t_token **token);
 char	*ps_strndup(char *str, int n);
 char	*ps_strjoin(char *s1, char *s2);
 

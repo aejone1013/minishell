@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_helper.c                                       :+:      :+:    :+:   */
+/*   token_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:11:04 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/18 16:11:05 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/14 02:34:01 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	lex_quote_len(char *str, char quote)
+/*
+따옴표 내부 문자열의 길이를 계산하는 함수
+*/
+int	tok_quote_len(char *str, char quote)
 {
 	int	i;
 
-	i = 1;
+	i = 1; // 따옴표 이후부터 탐색
 	while (str[i] && str[i] != quote)
 		i++;
 	return (i);
 }
 
-int	lex_get_str_len(char *str)
+/*
+일반 문자열의 길이를 계산하는 함수
+연산자나 공백을 만나면 종료
+*/
+int	tok_strlen(char *str)
 {
 	int	i;
 	int	len;
@@ -32,52 +39,48 @@ int	lex_get_str_len(char *str)
 	while (i < len)
 	{
 		if (str[i] == '\'')
-			i += lex_quote_len(&(str[i]), '\'');
+			i += tok_quote_len(&(str[i]), '\'');
 		else if (str[i] == '\"')
-			i += lex_quote_len(&(str[i]), '\"');
-		else if (lex_is_meta_char(str[i]) || (str[i] == ' ' || str[i] == '\t'))
+			i += tok_quote_len(&(str[i]), '\"');
+		else if (tok_is_operator(str[i]) || (str[i] == ' ' || str[i] == '\t'))
 			break ;
 		i++;
 	}
 	return (i);
 }
 
-int	lex_get_len(char *str, t_token_type type)
+/*
+주어진 문자열이 차지하는 토큰 길이를 계산하는 함수
+*/
+int	tok_get_len(char *str, t_token_type type)
 {
-	int	len;
-
-	len = 0;
 	if (type == HEREDOC || type == APPEND)
-		len = 2;
+		return (2); // `<<`, `>>`는 두 글자
 	else if (type == INFILE || type == OUTFILE || type == PIPE)
-		len = 1;
+		return (1); // `<`, `>`, `|`는 한 글자
 	else if (type == STRING)
-		len = lex_get_str_len(str);
-	return (len);
+		return (tok_strlen(str));
+	return (0);
 }
 
-t_token_type	lex_get_type(char *str)
+/*
+주어진 문자열의 토큰 타입을 결정하는 함수
+*/
+t_token_type	tok_get_type(char *str)
 {
 	if (str[0] == '<')
-	{
-		if (str[1] == '<')
-			return (HEREDOC);
-		else
-			return (INFILE);
-	}
+		return (str[1] == '<' ? HEREDOC : INFILE);  // `<<` 또는 `<`
 	else if (str[0] == '>')
-	{
-		if (str[1] == '>')
-			return (APPEND);
-		else
-			return (OUTFILE);
-	}
+		return (str[1] == '>' ? APPEND : OUTFILE);  // `>>` 또는 `>`
 	else if (str[0] == '|')
 		return (PIPE);
 	return (STRING);
 }
 
-int	lex_is_meta_char(char c)
+/*
+해당 문자가 연산자인지 확인하는 함수
+*/
+int	tok_is_operator(char c)
 {
 	int	found;
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parse.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:35:56 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 17:45:14 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/14 02:36:36 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ps_handle_quotes(t_token *token)
 			{
 				if (str[i] == '\'' || str[i] == '\"')
 				{
-					i += lex_quote_len(&(str[i]), str[i]);
+					i += tok_quote_len(&(str[i]), str[i]);
 					if (str[i] == '\0')
 						return (1);
 				}
@@ -105,7 +105,7 @@ int	ps_remove_null(t_token **head)
 	return (0);
 }
 
-int	parser(t_token **token)
+int	parse(t_token **token)
 {
 	int	error;
 

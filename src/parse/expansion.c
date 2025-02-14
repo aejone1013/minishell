@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:33:35 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 16:28:09 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/14 02:26:05 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	ps_expand_env(t_token *token)
 // 	while (words[i])
 // 	{
 // 		tmp = tok_create(words[i], ft_strlen(words[i]), STRING, token->data);
-// 		tok_add_back(&(local), tmp);
+// 		tok_append(&(local), tmp);
 // 		free(words[i]);
 // 		i++;
 // 	}
@@ -145,7 +145,7 @@ int	ps_expand_env(t_token *token)
 // 	current_next = current->next;
 
 // 	//assignation
-// 	tok_last(new)->next = current_next;
+// 	tok_get_last(new)->next = current_next;
 // 	current->value = new->value;
 // 	current->next = new->next;
 

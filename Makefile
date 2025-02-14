@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/07/08 11:20:19 by okoca             #+#    #+#              #
-#    Updated: 2025/02/06 15:59:40 by jaoh             ###   ########.fr        #
+#    Created: 2024/09/29 17:32:17 by jaoh              #+#    #+#              #
+#    Updated: 2025/02/10 17:43:39 by jaoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS_BT		= bi_func.c bi_func_utils.c bi_func_utils2.c bi_err_utils.c bi_check_ut
 
 SRCS_EX 	= exec.c exec_redirect.c exec_pipe.c exec_child_utils.c exec_errors.c exec_utils.c
 
-SRCS_LEX 	= lexer.c tokens.c lex_helper.c
+SRCS_TOK 	= tokenize.c tokens.c tok_helper.c
 
 SRCS_PAR 	= parser.c expansion.c quotes.c parser_helper.c expand_helper.c heredoc.c
 

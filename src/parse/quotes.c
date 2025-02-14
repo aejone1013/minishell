@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:10:09 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 16:28:26 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/14 02:31:43 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	*ps_get_quoted_str(char *str, char c, t_data *data)
 
 	len = 0;
 	new = NULL;
-	len = lex_quote_len(str, c) - 1;
+	len = tok_quote_len(str, c) - 1;
 	type = DOUBLEQUOTE;
 	if (c == '\'')
 		type = SINGLEQUOTE;
@@ -68,7 +68,7 @@ t_token	*ps_parse_quotes(char *str, t_data *data)
 		}
 		if (!tmp)
 			return (NULL);
-		tok_add_back(&(token), tmp);
+		tok_append(&(token), tmp);
 		i++;
 	}
 	return (token);
@@ -107,7 +107,7 @@ int	ps_expand_and_quotes(t_token *token)
 			if (token->value)
 				free(token->value);
 			token->value = ps_combine_tokens(str);
-			tok_free(str);
+			tok_free_list(str);
 		}
 		token = token->next;
 	}
