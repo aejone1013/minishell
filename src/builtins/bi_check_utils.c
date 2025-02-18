@@ -6,10 +6,9 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:31:23 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/09 16:27:38 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/18 17:04:13 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -77,19 +76,5 @@ int	bi_update_pwd(t_data *data, char *value)
 		free(raw);
 	}
 	free(cwd_new);
-	return (0);
-}
-
-int	bi_is_nflag(char *flag)
-{
-	if (!ft_strncmp(flag, "-n", 2))
-		flag += 2;
-	else
-		return (1);
-	while (*flag)
-	{
-		if (*flag++ != 'n')
-			return (1);
-	}
 	return (0);
 }

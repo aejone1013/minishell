@@ -6,12 +6,37 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 09:09:45 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/18 16:20:16 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/18 17:26:46 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// 인자가 없으면 환경 변수 목록 출력
+// 인자가 있으면 환경 변수 추가
+int	bi_export(t_data *data, t_args *args)
+{
+	int	exit_code;
+
+	exit_code = 0;
+	if (!args)
+	{
+		if (bi_print_export(data->envp))
+			exit_code = 1;
+	}
+	else
+	{
+		while (args)
+		{
+			if (bi_add_var(args->value, &(data->envp)))
+				exit_code = 1;
+			args = args->next;
+		}
+	}
+	return (exit_code);
+}
+
+// 환경 변수 삭제
 int	bi_unset(t_data *data, t_args *args)
 {
 	if (!args)
@@ -28,6 +53,7 @@ int	bi_unset(t_data *data, t_args *args)
 	return (0);
 }
 
+// 환경 변수 목록 출력
 int	bi_env(t_data *data, t_args *args)
 {
 	t_env	*tmp;
@@ -47,6 +73,11 @@ int	bi_env(t_data *data, t_args *args)
 	return (0);
 }
 
+/*
+인자가 숫자가 아니면 오류 처리
+인자가 두 개 이상이면 오류 처리
+정상적으로 종료 코드 설정 후 종료
+*/
 int	bi_exit(t_data *data, t_args *args)
 {
 	int		exit_code;
