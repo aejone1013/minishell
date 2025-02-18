@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 16:09:53 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/17 17:46:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/18 16:27:47 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,32 @@ int	ex_run_exec(t_data *data)
 그 외의 명령어는 자식 프로세스로 실행.
 모든 프로세스를 실행한 후  종료 대기
 */
-	int	ex_run_pipeline(t_data *data)
-	{
-		t_exec	*tmp;
-		int		builtin_type;
+int	ex_run_pipeline(t_data *data)
+{
+	t_exec	*tmp;
+	int		builtin_type;
 
-		tmp = data->exec;
-		builtin_type = bi_is_builtin(tmp->cmd);
-		if (tmp->next == NULL && bi_is_builtin(tmp->cmd))
-		{
-			if (ex_init_redir(tmp))
-				return (data->exit_code = 1, 1);
-			if (bi_is_builtin(tmp->cmd) == 2)
-				ft_putstr_fd("exit\n", STDERR_FILENO);
-			ex_unlink_heredoc(data);
-			data->exit_code = bi_do_builtin(data, tmp->cmd, tmp->args);
-			return (0);
-		}
-		while (tmp) // 여러 개의 명령 실행 (파이프 처리)
-		{
-			ex_setup_child(data, tmp); // 자식 프로세스 실행
-			data->pid_count++;
-			tmp = tmp->next;
-		}
-		ex_wait_child(data); // 모든 자식 프로세스 종료 대기
+	tmp = data->exec;
+	builtin_type = bi_is_builtin(tmp->cmd);
+	if (tmp->next == NULL && builtin_type)
+	{
+		if (ex_init_redir(tmp))
+			return (data->exit_code = 1, 1);
+		if (builtin_type == 2)
+			ft_putstr_fd("exit\n", STDERR_FILENO);
+		ex_unlink_heredoc(data);
+		data->exit_code = bi_do_builtin(data, tmp->cmd, tmp->args);
 		return (0);
 	}
+	while (tmp) // 여러 개의 명령 실행 (파이프 처리)
+	{
+		ex_setup_child(data, tmp); // 자식 프로세스 실행
+		data->pid_count++;
+		tmp = tmp->next;
+	}
+	ex_wait_child(data); // 모든 자식 프로세스 종료 대기
+	return (0);
+}
 
 /*
 fdio를 백업하거나 복원

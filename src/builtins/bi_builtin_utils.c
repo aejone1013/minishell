@@ -3,121 +3,125 @@
 /*                                                        :::      ::::::::   */
 /*   bi_builtin_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 09:09:45 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/17 17:49:24 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/07 18:02:54 by jaoh              #+#    #+#             */
+/*   Updated: 2025/02/18 16:20:25 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_echo(t_args *args)
+int	bi_print_export(t_env *env)
 {
-	int	n_flag;
+	char	**envs;
+	char	*tmp;
+	char	*tmp_id;
+	int		i;
 
-	n_flag = 0;
-	while (args && !bi_is_nflag(args->value))
-	{
-		n_flag = 1;
-		args = args->next;
-	}
-	while (args)
-	{
-		printf("%s", args->value);
-		if (args->next)
-			printf("%s", " ");
-		args = args->next;
-	}
-	if (!n_flag)
-		printf("%s", "\n");
-	return (0);
-}
-
-int	bi_cd(t_data *data, t_args *args)
-{
-	int		siz;
-	char	*cwd;
-	t_env	*home;
-
-	siz = arg_lstsize(args);
-	if (siz > 1)
-		return (ft_putstr_fd("minishell: cd: too many arguments\n",
-				STDERR_FILENO), 1);
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		perror("minishell: cd: error retrieving current directory");
-	home = ms_getenv("HOME", data->envp);
-	if ((!siz || !ft_strcmp(args->value, "--")) && home && home->value)
-		chdir(home->value);
-	else if ((!siz || !ft_strcmp(args->value, "--")) && (!home || !home->value))
-		return (bi_err_cd(errno, "HOME"), free(cwd), 1);
-	else if (chdir(args->value) < 0)
-	{
-		bi_err_cd(errno, args->value);
-		return (free(cwd), 1);
-	}
-	if (bi_update_pwd(data, cwd))
-		return (free(cwd), 1);
-	return (free(cwd), 0);
-}
-
-int	bi_pwd(t_args *args)
-{
-	char	*cwd;
-
-	if (args && *(args->value) == '-' && (ft_strcmp(args->value, "-L")
-			&& ft_strcmp(args->value, "-P")))
-	{
-		bi_err_pwd(args->value);
-		return (2);
-	}
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		perror("minishell: pwd: error retrieving current directory");
+	envs = ex_get_envs(env);
+	if (!envs)
 		return (1);
+	ft_advanced_sort_string_tab(envs, &ft_strcmp);
+	i = -1;
+	while (envs[++i])
+	{
+		printf("export ");
+		tmp = ft_strchr(envs[i], '=');
+		if (!tmp)
+			printf("%s\n", envs[i]);
+		else
+		{
+			tmp_id = env_get_id(envs[i]);
+			printf("%s=\"%s\"\n", tmp_id, tmp + 1);
+			free(tmp_id);
+		}
 	}
-	printf("%s\n", cwd);
-	free(cwd);
+	free(envs);
 	return (0);
 }
 
-int	bi_exit(t_data *data, t_args *args)
-{
-	int		exit_code;
-
-	if (args && args->next && !bi_check_exitcode(args->value))
-		return (ft_putstr_fd("minishell: exit: too many arguments\n",
-				STDERR_FILENO), 1);
-	exit_code = 0;
-	if (args && !bi_check_exitcode(args->value))
-		exit_code = ft_atoi(args->value);
-	else if (args && bi_check_exitcode(args->value))
-	{
-		bi_err_exit(args->value);
-		exit_code = 2;
-	}
-	ex_close_all_fds(data, NULL);
-	ms_free_all(data);
-	exit(exit_code);
-}
-
-int	bi_env(t_data *data, t_args *args)
+static t_env	*bi_new_var(char *arg_id, char *arg_raw)
 {
 	t_env	*tmp;
+	char	*arg_value;
 
-	tmp = data->envp;
-	if (args)
+	arg_value = env_get_value(arg_raw);
+	tmp = env_create(arg_id, arg_value, arg_raw);
+	if (!tmp)
 	{
-		bi_err_env(args->value);
-		return (127);
+		free(arg_raw);
+		if (arg_value)
+			free(arg_value);
+		free(arg_id);
+		return (NULL);
 	}
-	while (tmp)
+	return (tmp);
+}
+
+static void	bi_update_var(t_env *node, char *arg_raw)
+{
+	char	*arg_value;
+
+	arg_value = env_get_value(arg_raw);
+	if (!arg_value)
 	{
-		if (tmp->value)
-			printf("%s=%s\n", tmp->id, tmp->value);
-		tmp = tmp->next;
+		free(arg_raw);
+		return ;
 	}
+	if (node->value)
+		free(node->value);
+	if (node->raw)
+		free(node->raw);
+	node->value = arg_value;
+	node->raw = arg_raw;
+}
+
+int	bi_add_var(char *value, t_env **env)
+{
+	char	*arg_id;
+	char	*arg_raw;
+	t_env	*tmp;
+
+	arg_id = env_get_id(value);
+	if (!arg_id || !bi_check_id(arg_id))
+		return (free(arg_id), bi_err_export(value));
+	arg_raw = ft_strdup(value);
+	if (!arg_raw)
+		return (free(arg_id), 1);
+	tmp = ms_getenv(arg_id, *env);
+	if (!tmp)
+	{
+		tmp = bi_new_var(arg_id, arg_raw);
+		if (!tmp)
+			return (1);
+		env_add_back(env, tmp);
+	}
+	else
+	{
+		free(arg_id);
+		bi_update_var(tmp, arg_raw);
+	}
+	return (0);
+}
+
+int	bi_del_var(char *value, t_env **env)
+{
+	t_env	*tmp;
+	t_env	*tmp2;
+
+	tmp = ms_getenv(value, *env);
+	if (!tmp)
+		return (0);
+	if (*env == tmp)
+		*env = tmp->next;
+	else
+	{
+		tmp2 = *env;
+		while (tmp2->next != tmp)
+			tmp2 = tmp2->next;
+		tmp2->next = tmp->next;
+	}
+	env_del_one(tmp);
 	return (0);
 }
