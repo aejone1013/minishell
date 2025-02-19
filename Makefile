@@ -6,7 +6,7 @@
 #    By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/29 17:32:17 by jaoh              #+#    #+#              #
-#    Updated: 2025/02/10 17:43:39 by jaoh             ###   ########.fr        #
+#    Updated: 2025/02/19 17:30:42 by jaoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,40 +36,40 @@ NAME 		= minishell
 
 SRCS_M		= main.c
 
-SRCS_BT		= bi_func.c bi_func_utils.c bi_func_utils2.c bi_err_utils.c bi_check_utils.c
+SRCS_BT		= builtin1.c builtin2.c bi_utils.c bi_errors.c bi_check.c
 
 SRCS_EX 	= exec.c exec_redirect.c exec_pipe.c exec_child_utils.c exec_errors.c exec_utils.c
 
-SRCS_TOK 	= tokenize.c tokens.c tok_helper.c
+SRCS_TOK 	= token.c token_utils.c token_utils2.c
 
-SRCS_PAR 	= parser.c expansion.c quotes.c parser_helper.c expand_helper.c heredoc.c
+SRCS_PAR 	= parse.c expansion.c quotes.c parse_utils.c expand_helper.c heredoc.c
 
 SRCS_UTI 	= utils.c helper.c env.c env_helper.c
 
-SRCS_BLD 	= builder.c builder_helper.c filenames.c args.c
+SRCS_BLD 	= builder.c builder_utils.c file.c args.c
 
 SRCS_SIG 	= signal.c
 
 SRC 		= src/
 
 BUILTINS_PATH	= src/builtins/
-EXEC_PATH	= src/exec/
-LEXER_PATH	= src/lexer/
-PARSER_PATH	= src/parser/
-UTILS_PATH	= src/utils/
+EXEC_PATH		= src/exec/
+TOKEN_PATH		= src/token/
+PARSE_PATH		= src/parse/
+UTILS_PATH		= src/utils/
 BUILDER_PATH	= src/builder/
-SIGNAL_PATH	= src/signals/
+SIGNAL_PATH		= src/signals/
 
 SRCS		= $(addprefix $(SRC), $(SRCS_M)) \
 		  $(addprefix $(BUILTINS_PATH), $(SRCS_BT)) \
 		  $(addprefix $(EXEC_PATH), $(SRCS_EX)) \
-		  $(addprefix $(LEXER_PATH), $(SRCS_LEX)) \
-		  $(addprefix $(PARSER_PATH), $(SRCS_PAR)) \
+		  $(addprefix $(TOKEN_PATH), $(SRCS_TOK)) \
+		  $(addprefix $(PARSE_PATH), $(SRCS_PAR)) \
 		  $(addprefix $(UTILS_PATH), $(SRCS_UTI)) \
 		  $(addprefix $(BUILDER_PATH), $(SRCS_BLD)) \
 		  $(addprefix $(SIGNAL_PATH), $(SRCS_SIG)) \
 
-HEADERS		= builder.h builtins.h exec.h lexer.h minishell.h parser.h signals.h
+HEADERS		= builder.h builtins.h exec.h token.h minishell.h parse.h signals.h
 
 OBJS		= $(SRCS:.c=.o)
 

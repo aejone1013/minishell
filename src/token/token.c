@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:11:13 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/14 02:55:41 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 t_token	*tok_get_token(char *str, t_data *data)
 {
 	t_token			*new;
-	t_token_type	type;
+	t_tok_type	type;
 	int				len;
 
 	new = NULL;

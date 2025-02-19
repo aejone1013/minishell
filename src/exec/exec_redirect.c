@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:16 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/10 17:33:07 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:33:17 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ exec->redirs는 명령과 함께 설정된 리디렉션 정보를 담고 있음
 */
 int	ex_handle_redir(t_exec *exec)
 {
-	t_filenames	*tmp;
+	t_file	*tmp;
 
 	tmp = exec->redirs;
 	while (tmp) // 연결된 모든 리디렉션 처리
@@ -47,7 +47,7 @@ ex_dup2_close(exec->fd_in, STDIN_FILENO)를 사용하여 STDIN_FILENO을 새 파
 >>: 추가 모드(O_APPEND)
 ex_dup2_close(exec->fd_out, STDOUT_FILENO)를 사용하여 STDOUT_FILENO을 새 파일로 변경
 */
-void	ex_redirection(t_exec *exec, t_filenames *file)
+void	ex_redirection(t_exec *exec, t_file *file)
 {
 	if (file->type == INFILE || file->type == N_HEREDOC) // 입력 리디렉션 처리
 	{

@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:16:07 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/14 02:55:36 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 16:55:23 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int	ps_init_here_doc(int fd, char *eof)
 		line = readline("heredoc>");
 		if (!line)
 		{
-			ft_putstr_fd("minishell: here_doc: called end-of-line (ctrl-d)\n",
-				2);
+			ft_putstr_fd("minishell: here_doc: called eof\n", 2);
 			break ;
 		}
 		if (!ft_strcmp(line, eof) || g_signals.eof == 1)

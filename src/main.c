@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 16:32:39 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/18 16:13:38 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:31:30 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ms_setup_exec(t_data *data, t_token **token)
 		return (1);
 
 	// 실행할 명령어 개수를 저장
-	data->exec_count = br_lstsize(data->exec);
+	data->exec_count = bd_lstsize(data->exec);
 
 	// 프로세스 ID를 저장할 메모리 할당
 	data->pids = malloc(sizeof(pid_t) * (data->exec_count + 1));
@@ -43,7 +43,7 @@ int	handle_pipeline(t_data *data, char *line)
 	free(line);
 	if (token == NULL)
 		return (0);
-	//error = parse(&token);
+	error = parse(&token);
 	if (error != 0)
 	{
 		tok_free_list(token);

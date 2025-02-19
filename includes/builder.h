@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 16:43:09 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/09 17:10:51 by jaoh             ###   ########.fr       */
+/*   Created: 2025/01/19 17:34:10 by jaoh              #+#    #+#             */
+/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 /* builder functions fot t_exec */
 t_exec		*builder(t_token *token);
 t_exec		*bd_init(void);
-void		br_free(t_exec *exec);
-int			br_lstsize(t_exec *exec);
-void		br_debug(t_exec *exec);
+void		bd_free(t_exec *exec);
+int			bd_lstsize(t_exec *exec);
+void		bd_debug(t_exec *exec);
 
-/* list functions for t_filenames */
-void		fn_free(t_filenames *filenames);
-t_filenames	*fn_create(char *path, t_token_type type);
-t_filenames	*fn_last(t_filenames *filename);
-int			fn_add_back(t_filenames **head, t_filenames *new);
-int			fn_lstsize(t_filenames *filename);
+/* list functions for t_file */
+void		file_free(t_file *filenames);
+t_file	*file_create(char *path, t_tok_type type);
+t_file	*file_last(t_file *filename);
+int			file_add_back(t_file **head, t_file *new);
+int			file_lstsize(t_file *filename);
 
 /* list functions for t_args */
 void		arg_free(t_args *args);

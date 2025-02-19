@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 15:40:18 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/09 17:45:17 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ typedef struct s_args
 	struct s_args	*next;
 }	t_args;
 
-typedef struct s_filenames
+typedef struct s_file
 {
-	char				*path;
-	t_token_type		type;
-	struct s_filenames	*next;
-}	t_filenames;
+	char			*path;
+	t_tok_type	type;
+	struct s_file	*next;
+}	t_file;
 
 typedef struct s_exec
 {
 	char			*cmd;
 	t_args			*args;
-	t_filenames		*redirs;
+	t_file		*redirs;
 	struct s_exec	*next;
 	int				fd_in;
 	int				fd_out;
@@ -50,7 +50,7 @@ void	ex_wait_child(t_data *data);
 /* redirect */
 int		ex_init_redir(t_exec *exec);
 int		ex_handle_redir(t_exec *exec);
-void	ex_redirection(t_exec *exec, t_filenames *file);
+void	ex_redirection(t_exec *exec, t_file *file);
 
 /* pipe */
 void	ex_create_pipe(int fd_pipe[2]);

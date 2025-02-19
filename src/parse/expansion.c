@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:33:35 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/14 02:26:05 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 16:21:47 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	ps_expand_env(t_token *token)
 // 	new_tmp->next = NULL;
 
 // 	// very end
-// 	tok_free_one(new_tmp);
+// 	tok_free(new_tmp);
 // 	free(current_value);
 // 	return (0);
 // }

@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   filenames.c                                        :+:      :+:    :+:   */
+/*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:51:43 by jaoh              #+#    #+#             */
-/*   Updated: 2025/01/25 16:52:44 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fn_free(t_filenames *filenames)
+void	file_free(t_file *file)
 {
-	t_filenames	*tmp;
+	t_file	*tmp;
 
-	while (filenames != NULL)
+	while (file != NULL)
 	{
-		tmp = filenames;
-		if (filenames->path)
-			free(filenames->path);
-		filenames = filenames->next;
+		tmp = file;
+		if (file->path)
+			free(file->path);
+		file = file->next;
 		free(tmp);
 	}
 }
 
-t_filenames	*fn_create(char *path, t_token_type type)
+t_file	*file_create(char *path, t_tok_type type)
 {
-	t_filenames	*filename;
+	t_file	*filename;
 	char		*new;
 
-	filename = malloc(sizeof(t_filenames));
+	filename = malloc(sizeof(t_file));
 	if (filename == NULL)
 		return (NULL);
 	new = ft_strdup(path);
@@ -46,25 +46,25 @@ t_filenames	*fn_create(char *path, t_token_type type)
 	return (filename);
 }
 
-t_filenames	*fn_last(t_filenames *filename)
+t_file	*file_last(t_file *filename)
 {
 	while (filename->next != NULL)
 		filename = filename->next;
 	return (filename);
 }
 
-int	fn_add_back(t_filenames **head, t_filenames *new)
+int	file_add_back(t_file **head, t_file *new)
 {
 	if (new == NULL)
 		return (1);
 	if (*head == NULL)
 		*head = new;
 	else
-		fn_last(*head)->next = new;
+		file_last(*head)->next = new;
 	return (0);
 }
 
-int	fn_lstsize(t_filenames *filename)
+int	file_lstsize(t_file *filename)
 {
 	int	i;
 

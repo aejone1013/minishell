@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 12:39:30 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/14 02:55:38 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:31:26 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ms_clear(t_data *data, t_token *token)
 	{
 		if (data->exec)
 		{
-			br_free(data->exec);
+			bd_free(data->exec);
 			data->exec = NULL;
 		}
 		if (data->pids)
@@ -95,7 +95,7 @@ void	ms_free_all(t_data *data)
 	if (data)
 	{
 		if (data->exec)
-			br_free(data->exec);
+			bd_free(data->exec);
 		if (data->envp)
 			env_free(data->envp);
 		if (data->pids)

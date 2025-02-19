@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:10:09 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/14 02:31:43 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_token	*ps_get_quoted_str(char *str, char c, t_data *data)
 {
 	t_token			*new;
 	int				len;
-	t_token_type	type;
+	t_tok_type	type;
 
 	len = 0;
 	new = NULL;

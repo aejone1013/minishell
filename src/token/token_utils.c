@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:11:18 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/14 02:26:12 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	tok_free_list(t_token *token)
 	{
 		tmp = token;
 		token = token->next;
-		tok_free_one(tmp);
+		tok_free(tmp);
 	}
 }
 /*
 새로운 토큰을 생성하는 함수
 문자열 value의 앞 n글자를 복사하여 토큰을 만듦
 */
-t_token	*tok_create(char *value, int n, t_token_type type, t_data *data)
+t_token	*tok_create(char *value, int n, t_tok_type type, t_data *data)
 {
 	t_token	*token;
 	char	*new;

@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:11:04 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/14 02:34:01 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	tok_strlen(char *str)
 /*
 주어진 문자열이 차지하는 토큰 길이를 계산하는 함수
 */
-int	tok_get_len(char *str, t_token_type type)
+int	tok_get_len(char *str, t_tok_type type)
 {
 	if (type == HEREDOC || type == APPEND)
 		return (2); // `<<`, `>>`는 두 글자
@@ -66,7 +66,7 @@ int	tok_get_len(char *str, t_token_type type)
 /*
 주어진 문자열의 토큰 타입을 결정하는 함수
 */
-t_token_type	tok_get_type(char *str)
+t_tok_type	tok_get_type(char *str)
 {
 	if (str[0] == '<')
 		return (str[1] == '<' ? HEREDOC : INFILE);  // `<<` 또는 `<`
