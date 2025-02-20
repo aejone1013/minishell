@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:23:56 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/19 16:16:52 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:23:54 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 # include "libft.h"
 
 # include "token.h"
-# include "parse.h"
 # include "exec.h"
 # include "builtins.h"
 # include "builder.h"
@@ -93,7 +92,6 @@ void	ms_clear(t_data *data, t_token *token);
 t_env	*ms_env_dup(char **envp);
 void	*ms_free_double(char **value);
 t_env	*ms_getenv(char *path, t_env *envp);
-char	*ms_generate_random(char *str);
 
 /* t_env 함수 */
 t_env	*env_create(char *id, char *value, char *raw);

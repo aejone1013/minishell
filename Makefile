@@ -6,7 +6,7 @@
 #    By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/29 17:32:17 by jaoh              #+#    #+#              #
-#    Updated: 2025/02/19 17:30:42 by jaoh             ###   ########.fr        #
+#    Updated: 2025/02/20 15:27:19 by jaoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,13 @@ NAME 		= minishell
 
 SRCS_M		= main.c
 
-SRCS_BT		= builtin1.c builtin2.c bi_utils.c bi_errors.c bi_check.c
+SRCS_BT		= builtin.c bi_utils.c bi_errors.c bi_check.c
 
 SRCS_EX 	= exec.c exec_redirect.c exec_pipe.c exec_child_utils.c exec_errors.c exec_utils.c
 
 SRCS_TOK 	= token.c token_utils.c token_utils2.c
 
-SRCS_PAR 	= parse.c expansion.c quotes.c parse_utils.c expand_helper.c heredoc.c
+SRCS_PAR 	= parser.c
 
 SRCS_UTI 	= utils.c helper.c env.c env_helper.c
 
@@ -55,7 +55,7 @@ SRC 		= src/
 BUILTINS_PATH	= src/builtins/
 EXEC_PATH		= src/exec/
 TOKEN_PATH		= src/token/
-PARSE_PATH		= src/parse/
+PARSE_PATH		= src/parser/
 UTILS_PATH		= src/utils/
 BUILDER_PATH	= src/builder/
 SIGNAL_PATH		= src/signals/

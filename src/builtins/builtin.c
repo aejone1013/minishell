@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin1.c                                         :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:48:24 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 16:13:07 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:25:12 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,57 +58,88 @@ int	bi_echo(t_args *args)
 	return (0);
 }
 
-/*
-인자가 없거나 "--"이면 HOME으로 이동
-그렇지 않으면 입력된 경로로 이동
-이동 후 PWD 업데이트
-*/	
-int	bi_cd(t_data *data, t_args *args)
+// 인자가 없으면 환경 변수 목록 출력
+// 인자가 있으면 환경 변수 추가
+int	bi_export(t_data *data, t_args *args)
 {
-	int		size;
-	char	*cwd;
-	t_env	*home;
+	int	exit_code;
 
-	size = arg_lstsize(args);
-	if (size > 1)
-		return (ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO), 1);
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		perror("minishell: cd: error retrieving current directory");
-	home = ms_getenv("HOME", data->envp);
-	if ((!size || !ft_strcmp(args->value, "--")) && home && home->value)
-		chdir(home->value);
-	else if ((!size || !ft_strcmp(args->value, "--")) && (!home || !home->value))
-		return (bi_err_cd(errno, "HOME"), free(cwd), 1);
-	else if (chdir(args->value) < 0)
+	exit_code = 0;
+	if (!args)
 	{
-		bi_err_cd(errno, args->value);
-		return (free(cwd), 1);
+		if (bi_print_export(data->envp))
+			exit_code = 1;
 	}
-	if (bi_update_pwd(data, cwd))
-		return (free(cwd), 1);
-	return (free(cwd), 0);
+	else
+	{
+		while (args)
+		{
+			if (bi_add_var(args->value, &(data->envp)))
+				exit_code = 1;
+			args = args->next;
+		}
+	}
+	return (exit_code);
 }
 
-// 현재 작업 디렉토리를 출력
-// 옵션이 잘못되면 오류 처리
-int	bi_pwd(t_args *args)
+// 환경 변수 삭제
+int	bi_unset(t_data *data, t_args *args)
 {
-	char	*cwd;
-
-	if (args && *(args->value) == '-' && (ft_strcmp(args->value, "-L")
-			&& ft_strcmp(args->value, "-P")))
+	if (!args)
+		return (0);
+	else
 	{
-		bi_err_pwd(args->value);
-		return (2);
+		while (args)
+		{
+			if (bi_delete_var(args->value, &(data->envp)))
+				return (1);
+			args = args->next;
+		}
 	}
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		perror("minishell: pwd: error retrieving current directory");
-		return (1);
-	}
-	printf("%s\n", cwd);
-	free(cwd);
 	return (0);
+}
+
+// 환경 변수 목록 출력
+int	bi_env(t_data *data, t_args *args)
+{
+	t_env	*tmp;
+
+	tmp = data->envp;
+	if (args)
+	{
+		bi_err_env(args->value);
+		return (127);
+	}
+	while (tmp)
+	{
+		if (tmp->value)
+			printf("%s=%s\n", tmp->id, tmp->value);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+/*
+인자가 숫자가 아니면 오류 처리
+인자가 두 개 이상이면 오류 처리
+정상적으로 종료 코드 설정 후 종료
+*/
+int	bi_exit(t_data *data, t_args *args)
+{
+	int		exit_code;
+
+	if (args && args->next && !bi_check_exitcode(args->value))
+		return (ft_putstr_fd("minishell: exit: too many arguments\n",
+				STDERR_FILENO), 1);
+	exit_code = 0;
+	if (args && !bi_check_exitcode(args->value))
+		exit_code = ft_atoi(args->value);
+	else if (args && bi_check_exitcode(args->value))
+	{
+		bi_err_exit(args->value);
+		exit_code = 2;
+	}
+	ex_close_all_fds(data, NULL);
+	ms_free_all(data);
+	exit(exit_code);
 }

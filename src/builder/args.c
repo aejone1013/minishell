@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:04:27 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 17:43:46 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:31:19 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void	arg_free(t_args *args)
 	}
 }
 
-/*
-* will do the strdup on the path, just pass in a string
-*/
 t_args	*arg_create(char *value)
 {
 	t_args	*args;

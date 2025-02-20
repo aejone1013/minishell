@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 18:02:54 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 16:12:48 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:30:31 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	bi_add_var(char *value, t_env **env)
 	return (0);
 }
 
-int	bi_del_var(char *value, t_env **env)
+int	bi_delete_var(char *value, t_env **env)
 {
 	t_env	*tmp;
 	t_env	*tmp2;

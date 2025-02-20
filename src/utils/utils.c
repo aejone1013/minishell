@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 12:39:30 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 17:31:26 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:23:45 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,6 @@ t_data	*ms_init_data(char **envp)
 	return (data);
 }
 
-/*
-문자열 str의 주소값을 사용해 랜덤 문자열을 만들어 heredoc 파일명으로 사용
-*/
-char	*ms_generate_random(char *str)
-{
-	unsigned long	rand;
-	int				i;
-	char			*new;
-
-	if (!str)
-		return (NULL);
-	new = ft_calloc(sizeof(char), 17);
-	if (!new)
-		return (NULL);
-	rand = (unsigned long)str;
-	ft_strlcpy(new, "/tmp/hd_", 9);
-	i = 8;
-	while (i < 16)
-	{
-		rand *= RND_OFFSET + RND_PRIME;
-		new[i] = 'a' + (rand % 26);
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
 /*
 미니쉘 실행 중에 할당된 메모리를 해제하는 함수.
 */

@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:31:23 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 16:13:30 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:30:39 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,5 @@ int	bi_check_exitcode(char *value)
 	if ((num > 0 && (LONG_MAX / num < 1))
 		|| (num < 0 && (LONG_MIN / ft_atol(value) < 1)))
 		return (1);
-	return (0);
-}
-
-int	bi_update_pwd(t_data *data, char *value)
-{
-	t_env	*old_pwd;
-	t_env	*pwd;
-	char	*cwd_new;
-	char	*raw;
-	char	*raw2;
-
-	cwd_new = getcwd(NULL, 0);
-	old_pwd = ms_getenv("OLDPWD", data->envp);
-	pwd = ms_getenv("PWD", data->envp);
-	if (pwd && cwd_new)
-	{
-		raw2 = ft_strjoin("PWD=", cwd_new);
-		if (!raw2 || bi_add_var(raw2, &data->envp))
-			return (free(cwd_new), 1);
-		free(raw2);
-	}
-	if (old_pwd && value)
-	{
-		raw = ft_strjoin("OLDPWD=", value);
-		if (!raw || bi_add_var(raw, &data->envp))
-			return (free(cwd_new), 1);
-		free(raw);
-	}
-	free(cwd_new);
 	return (0);
 }
