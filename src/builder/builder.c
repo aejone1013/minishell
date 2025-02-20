@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:53:28 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 17:41:54 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 18:06:49 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	bd_handle_redirs(t_exec *exec, t_token *token)
 
 	// 리디렉션 토큰이면서 다음 토큰에 파일명이 존재하는 경우
 	if (token->next && token->next->value != NULL
-		&& (token->type == APPEND || token->type == N_HEREDOC
+		&& (token->type == APPEND || token->type == EOF
 			|| token->type == INFILE || token->type == OUTFILE))
 	{
 		tmp = file_create(token->next->value, token->type);

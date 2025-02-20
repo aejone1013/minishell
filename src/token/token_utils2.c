@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:11:04 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/20 15:54:23 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 17:54:34 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,19 @@ int	tok_get_len(char *str, t_tok_type type)
 t_tok_type	tok_get_type(char *str)
 {
 	if (str[0] == '<')
-		return (str[1] == '<' ? HEREDOC : INFILE);  // `<<` 또는 `<`
+	{
+		if (str[1] == '<')
+			return (HEREDOC);
+		else
+			return (INFILE);
+	}
 	else if (str[0] == '>')
-		return (str[1] == '>' ? APPEND : OUTFILE);  // `>>` 또는 `>`
+	{
+		if (str[1] == '>')
+			return (APPEND);
+		else
+			return (OUTFILE);
+	}
 	else if (str[0] == '|')
 		return (PIPE);
 	return (STRING);

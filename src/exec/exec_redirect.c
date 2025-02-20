@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:16 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 17:33:17 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 18:06:49 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ ex_dup2_close(exec->fd_out, STDOUT_FILENO)를 사용하여 STDOUT_FILENO을 새 
 */
 void	ex_redirection(t_exec *exec, t_file *file)
 {
-	if (file->type == INFILE || file->type == N_HEREDOC) // 입력 리디렉션 처리
+	if (file->type == INFILE || file->type == EOF) // 입력 리디렉션 처리
 	{
 		if (exec->fd_in != STDIN_FILENO)
 			close (exec->fd_in);
