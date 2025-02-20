@@ -6,13 +6,15 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:26:25 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/20 15:31:40 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 16:13:30 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		parse(t_token **token)
+int		parser(t_token **token)
 {
-    
+    (void)token;
+    printf("parsing again and again...\n");
+    return (0);
 }

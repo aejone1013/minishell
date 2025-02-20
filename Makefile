@@ -6,7 +6,7 @@
 #    By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/29 17:32:17 by jaoh              #+#    #+#              #
-#    Updated: 2025/02/20 15:27:19 by jaoh             ###   ########.fr        #
+#    Updated: 2025/02/20 16:03:40 by jaoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS_TOK 	= token.c token_utils.c token_utils2.c
 
 SRCS_PAR 	= parser.c
 
-SRCS_UTI 	= utils.c helper.c env.c env_helper.c
+SRCS_UTI 	= utils1.c utils2.c env.c env_utils.c
 
 SRCS_BLD 	= builder.c builder_utils.c file.c args.c
 
@@ -69,7 +69,7 @@ SRCS		= $(addprefix $(SRC), $(SRCS_M)) \
 		  $(addprefix $(BUILDER_PATH), $(SRCS_BLD)) \
 		  $(addprefix $(SIGNAL_PATH), $(SRCS_SIG)) \
 
-HEADERS		= builder.h builtins.h exec.h token.h minishell.h parse.h signals.h
+HEADERS		= builder.h builtins.h exec.h token.h minishell.h signals.h
 
 OBJS		= $(SRCS:.c=.o)
 

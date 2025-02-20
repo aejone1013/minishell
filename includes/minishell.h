@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 11:23:56 by okoca             #+#    #+#             */
-/*   Updated: 2025/02/20 15:23:54 by jaoh             ###   ########.fr       */
+/*   Created: 2024/12/20 15:40:02 by jaoh              #+#    #+#             */
+/*   Updated: 2025/02/20 16:01:08 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@
 # define COMMAND_NOT_FOUND 127
 # define SIGNAL_OFFSET 128
 
-# define RND_OFFSET 14695981039346656037UL
-# define RND_PRIME 1099511628211UL
-
 # define PROMPT "\001\033[1;33m\002charles mishell >$ \001\033[0m\002"
 # define DEF_ENV "SHELL=charles mishell"
 
@@ -85,6 +82,10 @@ typedef struct s_data
 extern t_signals	g_signals;
 
 /* minishell 주요 함수 */
+int		ms_setup_exec(t_data *data, t_token **token);
+int		handle_pipeline(t_data *data, char *line);
+int		handle_loop(t_data *data);
+int		parser(t_token **token);
 t_data	*ms_init_data(char **envp);
 void	ms_free_all(t_data *data);
 int		ms_check_line(char *line);

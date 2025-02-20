@@ -6,15 +6,13 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:11:04 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:54:23 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-따옴표 내부 문자열의 길이를 계산하는 함수
-*/
+// 따옴표 내부 문자열의 길이를 계산하는 함수
 int	tok_quote_len(char *str, char quote)
 {
 	int	i;
@@ -25,10 +23,8 @@ int	tok_quote_len(char *str, char quote)
 	return (i);
 }
 
-/*
-일반 문자열의 길이를 계산하는 함수
-연산자나 공백을 만나면 종료
-*/
+// 일반 문자열의 길이를 계산하는 함수
+// 연산자나 공백을 만나면 종료
 int	tok_strlen(char *str)
 {
 	int	i;
@@ -49,9 +45,7 @@ int	tok_strlen(char *str)
 	return (i);
 }
 
-/*
-주어진 문자열이 차지하는 토큰 길이를 계산하는 함수
-*/
+// 주어진 문자열이 차지하는 토큰 길이를 계산하는 함수
 int	tok_get_len(char *str, t_tok_type type)
 {
 	if (type == HEREDOC || type == APPEND)
@@ -63,9 +57,7 @@ int	tok_get_len(char *str, t_tok_type type)
 	return (0);
 }
 
-/*
-주어진 문자열의 토큰 타입을 결정하는 함수
-*/
+// 주어진 문자열의 토큰 타입을 결정하는 함수
 t_tok_type	tok_get_type(char *str)
 {
 	if (str[0] == '<')
@@ -77,9 +69,7 @@ t_tok_type	tok_get_type(char *str)
 	return (STRING);
 }
 
-/*
-해당 문자가 연산자인지 확인하는 함수
-*/
+// 해당 문자가 연산자인지 확인하는 함수
 int	tok_is_operator(char c)
 {
 	int	found;

@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:48:24 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/20 15:25:12 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 16:09:23 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	bi_do_builtin(t_data *data, char *cmd, t_args *args)
 {
 	if (!ft_strcmp(cmd, "echo"))
 		return (bi_echo(args));
-	if (!ft_strcmp(cmd, "cd"))
+	/*if (!ft_strcmp(cmd, "cd"))
 		return (bi_cd(data, args));
 	if (!ft_strcmp(cmd, "pwd"))
-		return (bi_pwd(args));
+		return (bi_pwd(args));*/
 	if (!ft_strcmp(cmd, "export"))
 		return (bi_export(data, args));
 	if (!ft_strcmp(cmd, "unset"))
@@ -57,6 +57,9 @@ int	bi_echo(t_args *args)
 	printf("%s", "\n");
 	return (0);
 }
+
+// int	bi_cd(t_data *data, t_args *args){}
+// int	bi_pwd(t_args *args){}
 
 // 인자가 없으면 환경 변수 목록 출력
 // 인자가 있으면 환경 변수 추가

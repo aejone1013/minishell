@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 16:32:39 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/20 15:26:37 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 16:12:30 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	handle_pipeline(t_data *data, char *line)
 	free(line);
 	if (token == NULL)
 		return (0);
-	error = parse(&token);
+	error = parser(&token);
 	if (error != 0)
 	{
 		tok_free_list(token);

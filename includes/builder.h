@@ -6,28 +6,28 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:34:10 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/02/20 16:01:05 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILDER_H
 # define BUILDER_H
 
-/* builder functions fot t_exec */
+/* builder.c */
 t_exec		*builder(t_token *token);
 t_exec		*bd_init(void);
 void		bd_free(t_exec *exec);
 int			bd_lstsize(t_exec *exec);
 void		bd_debug(t_exec *exec);
 
-/* list functions for t_file */
+/* file.c */
 void		file_free(t_file *filenames);
-t_file	*file_create(char *path, t_tok_type type);
-t_file	*file_last(t_file *filename);
+t_file	    *file_create(char *path, t_tok_type type);
+t_file	    *file_last(t_file *filename);
 int			file_add_back(t_file **head, t_file *new);
 int			file_lstsize(t_file *filename);
 
-/* list functions for t_args */
+/* args.c */
 void		arg_free(t_args *args);
 t_args		*arg_create(char *value);
 t_args		*arg_last(t_args *args);
