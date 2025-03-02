@@ -12,17 +12,15 @@
 
 #include "minishell.h"
 
-/*
-1. ex_get_path(cmd, data->envp)
-cmd(예: ls)의 실행 파일 경로를 찾음 (예: /bin/ls).
-2. ex_get_envs(data->envp)
-환경 변수를 char ** 형태로 변환.
-3. ex_get_cmds(cmd, args)
-cmd + args를 배열 형태로 변환 (예: {"ls", "-l", NULL}).
-4. execve(path, cmds, envs) 실행
-실행 파일을 현재 프로세스와 교체.
-*** execve()는 실패할 경우만 다음 코드가 실행됨.
-*/
+// 1. ex_get_path(cmd, data->envp)
+// cmd(예: ls)의 실행 파일 경로를 찾음 (예: /bin/ls).
+// 2. ex_get_envs(data->envp)
+// 환경 변수를 char ** 형태로 변환.
+// 3. ex_get_cmds(cmd, args)
+// cmd + args를 배열 형태로 변환 (예: {"ls", "-l", NULL}).
+// 4. execve(path, cmds, envs) 실행
+// 실행 파일을 현재 프로세스와 교체.
+// *** execve()는 실패할 경우만 다음 코드가 실행됨.
 int	ex_do_exec(t_data *data, char *cmd, t_args *args)
 {
 	char	*path;
@@ -45,10 +43,8 @@ int	ex_do_exec(t_data *data, char *cmd, t_args *args)
 	free(envs);
 	return (-2);
 }
-/*
-env path를 검색하여 실행 파일 경로를 찾음
-절대경로(/bin/ls)면 그대로 반환함
- */
+// env path를 검색하여 실행 파일 경로를 찾음
+// 절대경로(/bin/ls)면 그대로 반환함
 char	*ex_get_path(char *file, t_env *env)
 {
 	char	**paths;
@@ -69,10 +65,8 @@ char	*ex_get_path(char *file, t_env *env)
 	ft_free_all(paths);
 	return (exec);
 }
-/*
-PATH에 있는 디렉토리에서 파일이 실행 가능한지 검사함
-access(path, X_OK | F_OK)로 실행 권한 확인함
-*/
+// PATH에 있는 디렉토리에서 파일이 실행 가능한지 검사함
+// access(path, X_OK | F_OK)로 실행 권한 확인함
 char	*ex_get_exec(char **paths, char *file)
 {
 	char	*exec;

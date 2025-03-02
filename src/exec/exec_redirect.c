@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:10:16 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/20 18:06:49 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/03/02 17:34:19 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ int	ex_init_redir(t_exec *exec)
 		return (1);
 	return (0);
 }
-/*
-exec->redirs는 명령과 함께 설정된 리디렉션 정보를 담고 있음
-모든 리디렉션을 하나씩 처리(ex_redirection)
-파일 디스크립터(fd_in 또는 fd_out)가 -1이면 오류 발생
-*/
+// exec->redirs는 명령과 함께 설정된 리디렉션 정보를 담고 있음
+// 모든 리디렉션을 하나씩 처리(ex_redirection)
+// 파일 디스크립터(fd_in 또는 fd_out)가 -1이면 오류 발생
 int	ex_handle_redir(t_exec *exec)
 {
 	t_file	*tmp;
@@ -37,19 +35,17 @@ int	ex_handle_redir(t_exec *exec)
 	}
 	return (0);
 }
-/*
-*** input redirect (<, <<)
-fd_in을 닫고, 새 파일을 O_RDONLY로로 오픈
-ex_dup2_close(exec->fd_in, STDIN_FILENO)를 사용하여 STDIN_FILENO을 새 파일로 변경
-*** output redirect (>, >>)
-기존 표준 출력(fd_out)을 닫고, 새 파일을 O_WRONLY로 오픈
->: 덮어쓰기(O_TRUNC)
->>: 추가 모드(O_APPEND)
-ex_dup2_close(exec->fd_out, STDOUT_FILENO)를 사용하여 STDOUT_FILENO을 새 파일로 변경
-*/
+// *** input redirect (<, <<)
+// fd_in을 닫고, 새 파일을 O_RDONLY로로 오픈
+// ex_dup2_close(exec->fd_in, STDIN_FILENO)를 사용하여 STDIN_FILENO을 새 파일로 변경
+// *** output redirect (>, >>)
+// 기존 표준 출력(fd_out)을 닫고, 새 파일을 O_WRONLY로 오픈
+// >: 덮어쓰기(O_TRUNC)
+// >>: 추가 모드(O_APPEND)
+// ex_dup2_close(exec->fd_out, STDOUT_FILENO)를 사용하여 STDOUT_FILENO을 새 파일로 변경
 void	ex_redirection(t_exec *exec, t_file *file)
 {
-	if (file->type == INFILE || file->type == EOF) // 입력 리디렉션 처리
+	if (file->type == INFILE || file->type == N_HEREDOC) // 입력 리디렉션 처리
 	{
 		if (exec->fd_in != STDIN_FILENO)
 			close (exec->fd_in);

@@ -12,20 +12,16 @@
 
 #include "minishell.h"
 
-/*
-Readline 이벤트 훅에서 호출되는 간단한 함수 (현재는 EXIT_SUCCESS만 반환)
-이벤트 루프가 돌면서 시그널을 감지함
-*/
+// Readline 이벤트 훅에서 호출되는 간단한 함수 (현재는 EXIT_SUCCESS만 반환)
+// 이벤트 루프가 돌면서 시그널을 감지함
 int sg_readline_event(void)
 {
     return (EXIT_SUCCESS);
 }
 
-/*
-시그널 핸들러를 설정하는 함수
-SIGINT (Ctrl+C) -> sg_input_handler 실행
-SIGQUIT (Ctrl+\) 및 SIGTSTP (Ctrl+Z) -> 무시
-*/
+// 시그널 핸들러를 설정하는 함수
+// SIGINT (Ctrl+C) -> sg_input_handler 실행
+// SIGQUIT (Ctrl+\) 및 SIGTSTP (Ctrl+Z) -> 무시
 void sg_init_signal(void)
 {
     rl_event_hook = sg_readline_event; // Readline 이벤트 훅 설정
