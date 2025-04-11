@@ -6,38 +6,13 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 15:40:18 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/19 17:44:15 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/03/11 15:23:39 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
-
-typedef struct s_data	t_data;
-typedef struct s_env	t_env;
-
-typedef struct s_args
-{
-	char			*value;
-	struct s_args	*next;
-}	t_args;
-
-typedef struct s_file
-{
-	char			*path;
-	t_tok_type	type;
-	struct s_file	*next;
-}	t_file;
-
-typedef struct s_exec
-{
-	char			*cmd;
-	t_args			*args;
-	t_file		*redirs;
-	struct s_exec	*next;
-	int				fd_in;
-	int				fd_out;
-}	t_exec;
+# include "structure.h"
 
 /* exec */
 int		ex_run_exec(t_data *data);

@@ -5,23 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 16:11:18 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/20 15:50:41 by jaoh             ###   ########.fr       */
+/*   Created: 2025/03/11 18:16:29 by seong-ki          #+#    #+#             */
+/*   Updated: 2025/04/01 16:50:59 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// 개별 토큰을 메모리에서 해제하는 함수
-void	tok_free(t_token *token)
+t_token	*ft_new_token(char *value, t_tokenizer *state)
+{
+	t_token	*token;
+
+	token = (t_token *) malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = check_token_type(value, state);
+	state->is_first_token = 0;
+	token->value = value;
+	token->next = NULL;
+	token->prev = NULL;
+	return (token);
+}
+
+t_token	*ft_tklast(t_token *tklst)
+{
+	t_token	*list_ptr;
+
+	if (!tklst)
+		return (NULL);
+	list_ptr = tklst;
+	while (list_ptr->next)
+		list_ptr = list_ptr->next;
+	return (list_ptr);
+}
+
+void	ft_token_add_back(t_token **tklst, t_token *new)
+{
+	t_token	*last_token;
+
+	last_token = ft_tklast(*tklst);
+	if (!new)
+		return ;
+	if (last_token)
+	{
+		new->prev = last_token;
+		last_token->next = new;
+	}
+	else
+	{
+		new->prev = NULL;
+		*tklst = new;
+	}
+	new->next = NULL;
+}
+
+void	ft_free_token(t_token *token)
 {
 	if (token->value)
 		free(token->value);
 	free(token);
 }
 
-// 토큰 리스트 전체를 메모리에서 해제하는 함수
-void	tok_free_list(t_token *token)
+void	ft_free_token_list(t_token *token)
 {
 	t_token	*tmp;
 
@@ -29,53 +74,6 @@ void	tok_free_list(t_token *token)
 	{
 		tmp = token;
 		token = token->next;
-		tok_free(tmp);
+		ft_free_token(tmp);
 	}
-}
-
-// 새로운 토큰을 생성하는 함수
-// 문자열 value의 앞 n글자를 복사하여 토큰을 만듦
-t_token	*tok_create(char *value, int n, t_tok_type type, t_data *data)
-{
-	t_token	*token;
-	char	*new;
-
-	token = malloc(sizeof(t_token));
-	if (token == NULL)
-		return (NULL);
-	new = ft_strndup(value, n);
-	if (!new)
-	{
-		free(token);
-		return (NULL);
-	}
-	token->value = new;
-	token->type = type;
-	token->data = data;
-	token->next = NULL;
-	return (token);
-}
-
-/*
-토큰 리스트에서 마지막 토큰을 찾는 함수
-*/
-t_token	*tok_get_last(t_token *token)
-{
-	while (token->next != NULL)
-		token = token->next;
-	return (token);
-}
-
-/*
-새로운 토큰을 리스트 끝에 추가하는 함수
-*/
-int	tok_append(t_token **head, t_token *new)
-{
-	if (new == NULL)
-		return (1);
-	if (*head == NULL)
-		*head = new;
-	else
-		tok_get_last(*head)->next = new;
-	return (0);
 }

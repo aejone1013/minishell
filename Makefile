@@ -1,114 +1,91 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/09/29 17:32:17 by jaoh              #+#    #+#              #
-#    Updated: 2025/02/20 16:03:40 by jaoh             ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME			=	minishell
 
-SHELL=  /bin/bash
+SRC_DIR			=	src/
+OBJ_DIR			=	obj/
+LFT_DIR			=	src/libft/
+BUILTINS_PATH		=	src/builtins/
+EXEC_PATH		=	src/exec/
+PARSE_PATH		=	src/parse/
+UTILS_PATH		=	src/utils/
+BUILDER_PATH		=	src/builder/
+SIGNAL_PATH		=	src/signals/
+PARSE_PATH		=	src/parse/
+ENV_VARI_PATH		=	src/env_variable/
+TOKEN_PATH		=	src/token/
 
-FBlack			=   $(shell echo -e "\033[1;30m")
-Black			=   $(shell echo -e "\033[0;30m")
-FRed			=   $(shell echo -e "\033[1;31m")
-Red				=   $(shell echo -e "\033[0;31m")
-FGreen          =   $(shell echo -e "\033[1;32m")
-Green           =   $(shell echo -e "\033[0;32m")
-FBrown		    =   $(shell echo -e "\033[1;33m")
-Brown           =   $(shell echo -e "\033[0;33m")
-FYellow         =   $(shell echo -e "\033[1;33m")
-Yellow          =   $(shell echo -e "\033[0;33m")
-FBlue           =   $(shell echo -e "\033[1;34m")
-Blue            =   $(shell echo -e "\033[0;34m")
-FPurple         =   $(shell echo -e "\033[1;35m")
-Purple          =   $(shell echo -e "\033[0;35m")
-FCyan           =   $(shell echo -e "\033[1;36m")
-Cyan            =   $(shell echo -e "\033[0;36m")
-FWhite          =   $(shell echo -e "\033[1;37m")
-White           =   $(shell echo -e "\033[0;37m")
-RESET           =   $(shell echo -e "\033[0m")
+LIBFT			=	$(LFT_DIR)libft.a
 
-NAME 		= minishell
+SRCS_M			=	main.c
 
-SRCS_M		= main.c
+SRCS_BT			=	builtin.c builtin2.c bi_errors.c bi_utils.c bi_utils2.c bi_check.c
 
-SRCS_BT		= builtin.c bi_utils.c bi_errors.c bi_check.c
+SRCS_EX 		=	exec.c exec_redirect.c exec_pipe.c exec_child_utils.c exec_errors.c exec_utils.c
 
-SRCS_EX 	= exec.c exec_redirect.c exec_pipe.c exec_child_utils.c exec_errors.c exec_utils.c
+SRCS_UTI 		=	utils.c env_utils.c env_utils2.c
 
-SRCS_TOK 	= token.c token_utils.c token_utils2.c
+SRCS_BLD 		=	builder.c builder_utils.c file.c args.c
 
-SRCS_PAR 	= parser.c
+SRCS_SIG 		=	signal.c
 
-SRCS_UTI 	= utils1.c utils2.c env.c env_utils.c
+SRCS_PARSE		=	parse.c handle_token.c parse_utils.c heredoc.c syntax_error.c handle_quote.c
 
-SRCS_BLD 	= builder.c builder_utils.c file.c args.c
+SRCS_ENV_VARI	=	expand_variable.c expand_env_vari_utils.c
 
-SRCS_SIG 	= signal.c
+SRCS_TOKEN		=	token_type_utils.c token_utils.c
 
-SRC 		= src/
+SRCS			=	$(addprefix $(SRC_DIR), $(SRCS_M))			\
+					$(addprefix $(BUILTINS_PATH), $(SRCS_BT))	\
+					$(addprefix $(EXEC_PATH), $(SRCS_EX))		\
+				  	$(addprefix $(TOKEN_PATH), $(SRCS_TOK))		\
+				  	$(addprefix $(PARSE_PATH), $(SRCS_PAR))		\
+				  	$(addprefix $(UTILS_PATH), $(SRCS_UTI))		\
+			  		$(addprefix $(BUILDER_PATH), $(SRCS_BLD))	\
+			 	 	$(addprefix $(SIGNAL_PATH), $(SRCS_SIG))	\
+			 	 	$(addprefix $(PARSE_PATH), $(SRCS_PARSE))	\
+			 	 	$(addprefix $(TOKEN_PATH), $(SRCS_TOKEN))	\
+			 	 	$(addprefix $(ENV_VARI_PATH), $(SRCS_ENV_VARI))
+OBJS = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
 
-BUILTINS_PATH	= src/builtins/
-EXEC_PATH		= src/exec/
-TOKEN_PATH		= src/token/
-PARSE_PATH		= src/parser/
-UTILS_PATH		= src/utils/
-BUILDER_PATH	= src/builder/
-SIGNAL_PATH		= src/signals/
+HEADERS			=	builder.h builtin.h exec.h parsing.h minishell.h signals.h structure.h
+HEAD			=	includes/
+H_DEPS			=	$(addprefix $(HEAD), $(HEADERS))
 
-SRCS		= $(addprefix $(SRC), $(SRCS_M)) \
-		  $(addprefix $(BUILTINS_PATH), $(SRCS_BT)) \
-		  $(addprefix $(EXEC_PATH), $(SRCS_EX)) \
-		  $(addprefix $(TOKEN_PATH), $(SRCS_TOK)) \
-		  $(addprefix $(PARSE_PATH), $(SRCS_PAR)) \
-		  $(addprefix $(UTILS_PATH), $(SRCS_UTI)) \
-		  $(addprefix $(BUILDER_PATH), $(SRCS_BLD)) \
-		  $(addprefix $(SIGNAL_PATH), $(SRCS_SIG)) \
+CC				=	cc
+RM				=	rm -rf
+CFLAGS			=	-Wall -Wextra -Werror -g3 -I ./includes -I/opt/homebrew/include
 
-HEADERS		= builder.h builtins.h exec.h token.h minishell.h signals.h
+RLFLAG			=	-lreadline
+OBJF			=	.cache
 
-OBJS		= $(SRCS:.c=.o)
-
-HEAD		= includes/
-
-CFLAGS		= -Wall -Wextra -Werror
-
-CC		= cc
-
-H_DEPS	= $(addprefix $(HEAD), $(HEADERS))
-
-LIBFT_PATH	= libft/
-LIBFT_H_PATH	= libft/includes/
-LIBFT		= $(LIBFT_PATH)libft.a
-
-all: $(NAME)
+all:	$(NAME)
 
 $(LIBFT):
-	$(MAKE) -C $(LIBFT_PATH)
+	@make -C $(LFT_DIR)
 
-$(NAME): $(LIBFT) $(OBJS) $(H_DEPS)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline $(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(H_DEPS) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(RLFLAG)
 	@echo -e "${FBlue}${NAME}${Blue} compiled\n${RESET}"
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -I$(HEAD) -I$(LIBFT_H_PATH) -c $< -o $@
+$(OBJF):	
+	@mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
-	rm -f ${OBJS}
-	$(MAKE) -C $(LIBFT_PATH) clean
+	@$(RM) $(OBJ_DIR)
+	@make -C $(LFT_DIR) clean
 	@echo -e "$(FPurple).o files $(Purple)cleaned\n${RESET}"
 
-fclean: 
-	rm -f ${OBJS}
-	@echo -e "$(FPurple).o files $(Purple)cleaned\n${RESET}"
-	rm -f ${NAME}
-	$(MAKE) -C $(LIBFT_PATH) fclean
+fclean:	clean
+	@$(RM) $(NAME)
+	@make -C $(LFT_DIR) fclean
 	@echo -e "$(FRed)${NAME}$(Red) cleaned${RESET}\n"
 
-re : fclean all
+re:	fclean all
 
-.PHONY: all clean fclean re
+.PHONY			:	all	\
+					clean	\
+					fclean	\
+					re

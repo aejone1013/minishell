@@ -6,47 +6,51 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:53:28 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/20 18:06:49 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/03/29 17:48:29 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // 리디렉션이 나오면 해당 파일명을 t_file에 추가
-static int	bd_handle_redirs(t_exec *exec, t_token *token)
+static int	ft_handle_redirs(t_exec *exec, t_token *token)
 {
 	t_file	*tmp;
 
-	// 리디렉션 토큰이면서 다음 토큰에 파일명이 존재하는 경우
 	if (token->next && token->next->value != NULL
-		&& (token->type == APPEND || token->type == EOF
-			|| token->type == INFILE || token->type == OUTFILE))
+		&& (token->type == TOKEN_REDIRECTION_APPEND
+			|| token->type == TOKEN_HEREDOC_END
+			|| token->type == TOKEN_REDIRECTION_IN
+			|| token->type == TOKEN_REDIRECTION_OUT))
 	{
 		tmp = file_create(token->next->value, token->type);
 		if (!tmp)
 			return (-1);
-		file_add_back(&(exec->redirs), tmp); // 리스트에 추가
+		file_add_back(&(exec->redirs), tmp);
 		return (1);
 	}
 	return (0);
 }
 
 // argument 인 경우 t_args에 추가
-static int	bd_handle_args(t_exec *exec, t_token *token)
+static int	ft_handle_args(t_exec *exec, t_token *token)
 {
 	t_args	*new;
 
 	new = NULL;
-	if (token->type == ARGUMENT)
+	if (token->type == TOKEN_STRING || token->type == TOKEN_ENV_VARI)
 	{
 		new = arg_create(token->value);
 		if (!new)
 			return (-1);
-		arg_add_back(&(exec->args), new); // 리스트에 추가
+		arg_add_back(&(exec->args), new);
 	}
 	return (0);
 }
 
+// 실행 구조체를 생성하는 함수
+// 입력된 토큰을 분석하여 t_exec 구조체를 생성
+// 파이프가 나오면 재귀적으로 다음 명령을 생성
 t_exec	*builder(t_token *token)
 {
 	t_exec	*exec;
@@ -56,21 +60,20 @@ t_exec	*builder(t_token *token)
 		return (NULL);
 	while (token != NULL)
 	{
-		if (token->type == PIPE) //if 파이프가 다음 명령을 재귀로 생성
+		if (token->type == TOKEN_PIPE)
 		{
 			exec->next = builder(token->next);
 			break ;
 		}
-		else if (token->type == COMMAND) //if 명령어, 저장
+		else if (token->type == TOKEN_COMMAND)
 		{
 			exec->cmd = ft_strdup(token->value);
 			if (!exec->cmd)
 				return (NULL);
 		}
-		// 리디렉션 및 인자 처리
-		bd_handle_redirs(exec, token);
-		bd_handle_args(exec, token);
-		token = token->next; 
+		ft_handle_redirs(exec, token);
+		ft_handle_args(exec, token);
+		token = token->next;
 	}
 	return (exec);
 }

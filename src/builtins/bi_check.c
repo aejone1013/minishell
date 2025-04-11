@@ -6,7 +6,7 @@
 /*   By: jaoh <jaoh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:31:23 by jaoh              #+#    #+#             */
-/*   Updated: 2025/02/20 15:30:39 by jaoh             ###   ########.fr       */
+/*   Updated: 2025/04/01 18:33:19 by jaoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	bi_check_exitcode(char *value)
 		if (!ft_isdigit(*tmp++))
 			return (1);
 	}
-	num = ft_atol(value);
-	if ((num > 0 && (LONG_MAX / num < 1))
-		|| (num < 0 && (LONG_MIN / ft_atol(value) < 1)))
+	num = ft_atoi(value);
+	if (num > LONG_MAX || num < LONG_MIN)
 		return (1);
+	printf("--------num :%ld::-------\n", num);
 	return (0);
 }
